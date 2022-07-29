@@ -99,7 +99,7 @@
         android:checkable="true"
         android:contentDescription="@string/like_button"
         android:visibility="visible"
-        app:icon="@drawable/ic_round_favorite_border_24"
+        app:icon="@drawable/ic_favorite_24dp"
         app:layout_constraintStart_toEndOf="@id/serving_barrier"
         tools:checked="true"
 

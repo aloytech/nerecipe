@@ -26,10 +26,24 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textSize="@dimen/common_text_size"
-        app:layout_constraintBottom_toBottomOf="@id/serving_view"
+
         app:layout_constraintStart_toEndOf="@id/serving_view"
         app:layout_constraintTop_toTopOf="@id/serving_view"
         tools:text="@sample/recipes.json/recipes/name" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/category_button"
+        style="@style/Widget.AppTheme.MenuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/category_button"
+        android:text="@string/category_button"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@id/recipe_name_edit"
+        app:layout_constraintTop_toBottomOf="@id/recipe_name_edit"
+        />
+
+
 
 
     <androidx.constraintlayout.widget.Barrier
@@ -38,20 +52,19 @@
         android:layout_height="wrap_content"
         app:barrierDirection="end"
         app:barrierMargin="@dimen/common_spacing"
-        app:constraint_referenced_ids="recipe_name_edit" />
-
+        app:constraint_referenced_ids="recipe_name_edit,category_button" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/menu_button"
+        android:id="@+id/add_stage_button"
         style="@style/Widget.AppTheme.MenuButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/show_menu"
         android:visibility="visible"
-        app:fabSize="mini"
+        app:fabSize="normal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_round_more_vert_24" />
+        app:layout_constraintTop_toTopOf="@id/short_barrier"
+        app:srcCompat="@drawable/ic_baseline_add_circle_outline_48" />
 
 
 
@@ -60,12 +73,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="recipe_name_edit,serving_view"/>
-    <FrameLayout
+        app:constraint_referenced_ids="recipe_name_edit,serving_view,category_button"/>
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/stages"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/serving_barrier"/>
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/add_stage_button"/>
 
-
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_button"
+        style="@style/Widget.AppTheme.MenuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/save_button"
+        android:text="@string/save_button"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stages"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

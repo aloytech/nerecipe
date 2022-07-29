@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_feedFragment_to_showRecipeFull"
             app:destination="@id/showRecipeFull" />
+        <action
+            android:id="@+id/action_feedFragment_to_editRecipe"
+            app:destination="@id/editRecipe" />
     </fragment>
     <fragment
         android:id="@+id/showRecipeFull"
@@ -22,5 +25,20 @@
         <action
             android:id="@+id/action_showRecipeFull_to_feedFragment"
             app:destination="@id/feedFragment" />
+        <action
+            android:id="@+id/action_showRecipeFull_to_editRecipe"
+            app:destination="@id/editRecipe" />
+    </fragment>
+    <fragment
+        android:id="@+id/editRecipe"
+        android:name="ru.netology.nerecipe.EditRecipe"
+        android:label="recipe_edit"
+        tools:layout="@layout/recipe_edit" >
+        <action
+            android:id="@+id/action_editRecipe_to_feedFragment"
+            app:destination="@id/feedFragment" />
+        <action
+            android:id="@+id/action_editRecipe_to_showRecipeFull"
+            app:destination="@id/showRecipeFull" />
     </fragment>
 </navigation>

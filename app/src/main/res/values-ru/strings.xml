@@ -12,14 +12,17 @@
     <string name="remove">удалить</string>
     <string name="edit">редактировать</string>
     <string name="like_button">добавить в избранное</string>
+    <string name="category_button">выберите категорию</string>
+    <string name="save_button">СОХРАНИТЬ</string>
+
     <!--Categories -->
-    <string name="european">Европейская</string>
+    <string name="europian">Европейская</string>
     <string name="asian">Азиатская</string>
-    <string name="panasian">Паназиатская</string>
+    <string name="panasian">Пан-азиатская</string>
     <string name="eastern">Восточная</string>
     <string name="american">Американская</string>
     <string name="russian">Русская</string>
-    <string name="mideterranean">Средиземноморская</string>
+    <string name="mediterranian">Средиземноморская</string>
 
     <string name="lorem_ipsum">
         First line.\n\n

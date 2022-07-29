@@ -48,9 +48,9 @@ class FeedFragment : Fragment() {
 
             override fun onEditItem(id:Int) {
                 viewModel.edit(id)
-
-
-
+                findNavController().navigate(R.id.action_feedFragment_to_editRecipe,
+                Bundle().apply
+                 {recipeIdArg = id  })
             }
 
             override fun onShowRecipe(id: Int) {

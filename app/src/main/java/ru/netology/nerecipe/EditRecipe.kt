@@ -23,11 +23,12 @@ import ru.netology.nerecipe.databinding.RecipeFullBinding
 import ru.netology.nerecipe.databinding.RecipeShortBinding
 import java.lang.Exception
 
-class EditRecipe : ListFragment() {
+class EditRecipe : Fragment() {
 
     private val viewModel: RecipeViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
+    private var currentCategory = 0
 
 
     override fun onCreateView(
@@ -42,6 +43,7 @@ class EditRecipe : ListFragment() {
         viewModel.data.observe(viewLifecycleOwner) {
             id?.let { init(binding, it) }
         }
+
         return binding.root
     }
 
@@ -49,30 +51,49 @@ class EditRecipe : ListFragment() {
         val recipe = id.let { viewModel.showRecipe(it) }
 
         binding.apply {
-            Picasso.get().load(recipe.servingLink)
-                .into(servingView, object : com.squareup.picasso.Callback {
-                    override fun onSuccess() {
-                        Log.i("RECIPE", "image load from url " + recipe.servingLink)
-                    }
 
-                    override fun onError(e: Exception?) {
-                        servingView.setImageDrawable(R.mipmap.food.toDrawable())
-                    }
-                })
-            recipeNameEdit.text.append(recipe.name)
+            servingView.setImageDrawable(R.mipmap.food.toDrawable())
 
-
-            menuButton.setOnClickListener {
+            recipeNameEdit.setText(recipe.name)
+            categoryButton.text = viewModel.getCategoryName(recipe.id)
+            categoryButton.setOnClickListener {
                 PopupMenu(it.context, it).apply {
-                    inflate(R.menu.menu_main)
+                    inflate(R.menu.menu_categories)
                     setOnMenuItemClickListener { item ->
                         when (item.itemId) {
-                            R.id.removeItem -> {
+                            R.id.european -> {
+                                categoryButton.text = "Европейская"
+                                currentCategory = 0
                                 true
                             }
-                            R.id.editItem -> {
-                                viewModel.edit(recipe.id)
-                                val stages = recipe.stages
+                            R.id.asian -> {
+                                categoryButton.text = "Азиатская"
+                                currentCategory = 1
+                                true
+                            }
+                            R.id.panasian -> {
+                                categoryButton.text = "Паназиатская"
+                                currentCategory = 2
+                                true
+                            }
+                            R.id.eastern -> {
+                                categoryButton.text = "Восточная"
+                                currentCategory = 3
+                                true
+                            }
+                            R.id.american -> {
+                                categoryButton.text = "Американская"
+                                currentCategory = 4
+                                true
+                            }
+                            R.id.russian -> {
+                                categoryButton.text = "Русская"
+                                currentCategory = 5
+                                true
+                            }
+                            R.id.mediterranean -> {
+                                categoryButton.text = "Средиземноморская"
+                                currentCategory = 6
                                 true
                             }
                             else -> false
@@ -81,6 +102,5 @@ class EditRecipe : ListFragment() {
                 }.show()
             }
         }
-
     }
 }

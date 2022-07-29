@@ -58,7 +58,7 @@ class ShowRecipeFull : Fragment() {
                 })
             recipeNameView.text = recipe.name
             likeButton.text = recipe.likesToString()
-            likeButton.isChecked = false
+            likeButton.isChecked = viewModel.likedByMe(id, getCurrentUserId())
             val listAdapter =
                 ArrayAdapter(this.root.context, android.R.layout.simple_list_item_1, recipe.stages)
             stagesListView.adapter = listAdapter

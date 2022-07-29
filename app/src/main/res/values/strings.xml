@@ -11,14 +11,16 @@
     <string name="remove">remove</string>
     <string name="edit">edit</string>
     <string name="like_button">Toggle to add to favorites</string>
+    <string name="category_button">choose category</string>
+    <string name="save_button">SAVE</string>
     <!--Categories -->
-    <string name="european">European</string>
+    <string name="europian">Europian</string>
     <string name="asian">Asian</string>
-    <string name="panasian">Pan-Asian</string>
+    <string name="panasian">Pan-asian</string>
     <string name="eastern">Eastern</string>
     <string name="american">American</string>
     <string name="russian">Russian</string>
-    <string name="mideterranean">Mideterranian</string>
+    <string name="mediterranian">Mediterranean</string>
 
     <string name="lorem_ipsum">
         First line.\n\n
