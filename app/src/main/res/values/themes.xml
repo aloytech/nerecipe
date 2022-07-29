@@ -1,0 +1,37 @@
+<resources>
+    <style name="Theme.NeRecipe" parent="Theme.Material3.DayNight">
+        <!-- Customize your light theme here. -->
+        <item name="android:navigationBarColor">@color/md_sys_color_primary</item>
+        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/md_sys_color_primary</item>
+        <item name="colorPrimaryVariant">@color/md_sys_color_primary_dark</item>
+        <item name="colorOnPrimary">@color/md_sys_color_on_primary</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/md_sys_color_secondary</item>
+        <item name="colorSecondaryVariant">@color/md_sys_color_secondary_dark</item>
+        <item name="colorOnSecondary">@color/md_sys_color_on_secondary</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
+        <item name="textInputStyle">@style/Widget.Material3.TextInputLayout.OutlinedBox</item>
+
+    </style>
+    <style name="Widget.AppTheme.LikeButton" parent="Widget.MaterialComponents.Button">
+        <item name="iconTint">@color/md_sys_color_tertiary</item>
+        <item name="minWidth">@dimen/icon_button_min_size</item>
+        <item name="minHeight">@dimen/icon_button_min_size</item>
+        <item name="backgroundTint">@color/md_sys_color_background</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="elevation">@dimen/elevation</item>
+        <item name="borderWidth">@dimen/zero_pd</item>
+    </style>
+    <style name="Widget.AppTheme.RepostButton" parent="Widget.AppTheme.LikeButton">
+        <item name="iconTint">@color/md_sys_color_primary_dark</item>
+    </style>
+    <style name="Widget.AppTheme.MenuButton" parent="Widget.AppTheme.RepostButton">
+        <item name="maxWidth">@dimen/icon_button_min_size</item>
+    </style>
+    <style name="Widget.AppTheme.FAButton" parent="Widget.AppTheme.RepostButton">
+        <item name="backgroundTint">@color/md_sys_color_tertiary</item>
+    </style>
+</resources>

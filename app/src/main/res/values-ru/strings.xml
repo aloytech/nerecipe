@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NeRecipe</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="serving_place">Вариант сервировки</string>
+    <string name="show_menu">Меню</string>
+    <string name="remove">удалить</string>
+    <string name="edit">редактировать</string>
+    <string name="like_button">добавить в избранное</string>
+    <!--Categories -->
+    <string name="european">Европейская</string>
+    <string name="asian">Азиатская</string>
+    <string name="panasian">Паназиатская</string>
+    <string name="eastern">Восточная</string>
+    <string name="american">Американская</string>
+    <string name="russian">Русская</string>
+    <string name="mideterranean">Средиземноморская</string>
+
+    <string name="lorem_ipsum">
+        First line.\n\n
+        Second line.
+    </string>
+</resources>
