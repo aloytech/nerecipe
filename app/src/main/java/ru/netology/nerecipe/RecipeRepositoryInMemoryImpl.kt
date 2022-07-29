@@ -3,8 +3,11 @@ package ru.netology.nerecipe
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 
 
 class RecipeRepositoryInMemoryImpl : RecipeRepository {
@@ -17,20 +20,17 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
 
     init {
         val db = Firebase.firestore
-        users = listOf(
-            User(
-                0, "Alexey", listOf(1), "12345".hashCode()
-            ),
-            User(
-                1, "Roman", hash = "54321".hashCode()
-            ),
-            User(
-                2, "Ivan", hash = "111111".hashCode()
-            )
-        )
-        users.forEach {
-            db.collection("users").add(it)
-        }
+
+        db.collection("users")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    Log.d("FIREBASE","success get ${document.data}")
+                    val userJson = Gson().toJson(document.data)
+                    val user = Gson().fromJson(userJson,User::class.java)
+                    users = listOf(user)+users
+                }
+            }
 
         categories = listOf(
             Category(0, "Европейская"),
@@ -42,38 +42,22 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
             Category(6, "Средиземноморская")
         )
 
-        categories.forEach {
-            db.collection("categories").add(it)
-        }
-        recipes = listOf(
-            Recipe(
-                id = 1,
-                authorId = 1,
-                name = "Блины",
-                categoryId = 0,
-                likesCount = 10,
-                stages = listOf("смешать", "взбить", "замесить", "зажарить"),
-                stagesLink = emptyList(),
-                servingLink = "https://foma.ru/fotos/online/online%202013/maslenitsa2013/recepty/prostye_2.jpg"
-            ),
-            Recipe(
-                id = 2,
-                authorId = 2,
-                name = "Блины2",
-                categoryId = 1,
-                likesCount = 15,
-                stages = listOf("смешать", "взбить", "замесить", "зажарить"),
-                stagesLink = emptyList(),
-                servingLink = "https://foma.ru/fotos/online/online%202013/maslenitsa2013/recepty/prostye_2.jpg"
-            )
+        db.collection("recipes")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents){
+                    Log.d("FIREBASE","success get ${document.data}")
+                    val recipeJson = Gson().toJson(document.data)
+                    val recipe = Gson().fromJson(recipeJson,Recipe::class.java)
 
-        )
-        recipes.forEach {
-            db.collection("recipes").add(it)
-                .addOnSuccessListener { documentReference ->
-                    Log.d("FIRESTORE", "DocumentSnapshot added with ID: ${documentReference.id}")
+                    recipes = listOf(recipe) + recipes
+                    data.value = recipes
                 }
-        }
+            }
+            .addOnFailureListener { exception ->
+                Log.d("FIREBASE","error get",exception)
+            }
+
         data.value = recipes
     }
 

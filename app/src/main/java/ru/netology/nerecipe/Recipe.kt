@@ -1,5 +1,7 @@
 package ru.netology.nerecipe
 
+import kotlin.reflect.KClass
+
 data class Recipe(
     val id: Int,
     val authorId: Int,
