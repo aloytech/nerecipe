@@ -1,83 +1,88 @@
 package ru.netology.nerecipe
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 class RecipeRepositoryInMemoryImpl : RecipeRepository {
-    private var users = listOf(
-        User(
-            0, "Alexey",listOf(1), "12345".hashCode()
-        ),
-        User(
-            1, "Roman", hash = "54321".hashCode()
-        ),
-        User(
-            2, "Ivan", hash = "111111".hashCode()
-        )
-    )
 
-    private var categories = listOf(
-        Category(0, "Европейская"),
-        Category(1, "Азиатская"),
-        Category(2, "Паназиатская"),
-        Category(3, "Восточная"),
-        Category(4, "Американская"),
-        Category(5, "Русская"),
-        Category(6, "Средиземноморская")
-    )
-    private var recipes = listOf(
-        Recipe(
-            id = 1,
-            authorId = 1,
-            name = "Блины",
-            categoryId = 0,
-            likesCount = 10,
-            stages = listOf("смешать", "взбить", "замесить", "зажарить"),
-            stagesLink = emptyList(),
-            servingLink = "https://foma.ru/fotos/online/online%202013/maslenitsa2013/recepty/prostye_2.jpg"
-        ),
-        Recipe(
-            id = 2,
-            authorId = 2,
-            name = "Блины2",
-            categoryId = 1,
-            likesCount = 15,
-            stages = listOf("смешать", "взбить", "замесить", "зажарить"),
-            stagesLink = emptyList(),
-            servingLink = "https://foma.ru/fotos/online/online%202013/maslenitsa2013/recepty/prostye_2.jpg"
-        )
-
-    )
-
-    private fun toRecipeView(recipes: List<Recipe>):List<RecipeView>{
-        val listRecipeView = emptyList<RecipeView>()
-        recipes.forEach {
-            listRecipeView.plusElement(
-                RecipeView(
-                it.id,
-                getUserName(it.id),
-                    it.name,
-                    getCategoryName(it.id),
-                    it.likesToString(),
-                    likedByMe(it.id, getCurrentUserId()),
-                    it.servingLink,
-                    it.stages,
-                    it.stagesLink
-            )
-            )
-        }
-        return listRecipeView
-    }
+    private var users = emptyList<User>()
+    private var categories = emptyList<Category>()
     private var nextId = 3
+    private var recipes = emptyList<Recipe>()
     private val data = MutableLiveData(recipes)
+
+    init {
+        val db = Firebase.firestore
+        users = listOf(
+            User(
+                0, "Alexey", listOf(1), "12345".hashCode()
+            ),
+            User(
+                1, "Roman", hash = "54321".hashCode()
+            ),
+            User(
+                2, "Ivan", hash = "111111".hashCode()
+            )
+        )
+        users.forEach {
+            db.collection("users").add(it)
+        }
+
+        categories = listOf(
+            Category(0, "Европейская"),
+            Category(1, "Азиатская"),
+            Category(2, "Паназиатская"),
+            Category(3, "Восточная"),
+            Category(4, "Американская"),
+            Category(5, "Русская"),
+            Category(6, "Средиземноморская")
+        )
+
+        categories.forEach {
+            db.collection("categories").add(it)
+        }
+        recipes = listOf(
+            Recipe(
+                id = 1,
+                authorId = 1,
+                name = "Блины",
+                categoryId = 0,
+                likesCount = 10,
+                stages = listOf("смешать", "взбить", "замесить", "зажарить"),
+                stagesLink = emptyList(),
+                servingLink = "https://foma.ru/fotos/online/online%202013/maslenitsa2013/recepty/prostye_2.jpg"
+            ),
+            Recipe(
+                id = 2,
+                authorId = 2,
+                name = "Блины2",
+                categoryId = 1,
+                likesCount = 15,
+                stages = listOf("смешать", "взбить", "замесить", "зажарить"),
+                stagesLink = emptyList(),
+                servingLink = "https://foma.ru/fotos/online/online%202013/maslenitsa2013/recepty/prostye_2.jpg"
+            )
+
+        )
+        recipes.forEach {
+            db.collection("recipes").add(it)
+                .addOnSuccessListener { documentReference ->
+                    Log.d("FIRESTORE", "DocumentSnapshot added with ID: ${documentReference.id}")
+                }
+        }
+        data.value = recipes
+    }
+
     override fun getAll(): LiveData<List<Recipe>> = data
 
     override fun likeDislike(id: Int, myId: Int) {
 
-        val likedByMe = likedByMe(id,myId)
-        users = users.map{
+        val likedByMe = likedByMe(id, myId)
+        users = users.map {
             if (it.uid != myId) {
                 it
             } else {
@@ -109,7 +114,7 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
     }
 
     override fun save(recipe: Recipe) {
-        if (recipe.id == 0){
+        if (recipe.id == 0) {
 
             recipes = listOf(recipe.copy(id = nextId++, authorId = 1)) + recipes
             data.value = recipes
@@ -121,6 +126,7 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
         data.value = recipes
 
     }
+
     override fun showRecipe(id: Int): Recipe {
         return recipes.find { it.id == id }!!
     }
