@@ -2,13 +2,17 @@ package ru.netology.nerecipe
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import ru.netology.nerecipe.EditStage.Companion.textArg
 
-class StageAdapter(private val context: Context, var stageList : ArrayList<String>) :
+class StageAdapter(private val context: Context, var stageList : ArrayList<String>, val navController: NavController) :
     RecyclerView.Adapter<StageAdapter.StageViewHolder>() {
 
     /**
@@ -53,6 +57,11 @@ class StageAdapter(private val context: Context, var stageList : ArrayList<Strin
         }
 
         notifyItemMoved(fromPosition, toPosition)
+    }
+    fun editItem(position: Int){
+        val text = stageList[position]
+        removeItem(position)
+        navController.navigate(R.id.action_editRecipe_to_editStage, Bundle().apply { textArg= text})
     }
     fun removeItem(position: Int){
         stageList.removeAt(position)

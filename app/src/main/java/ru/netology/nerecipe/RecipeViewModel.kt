@@ -3,8 +3,6 @@ package ru.netology.nerecipe
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
@@ -18,7 +16,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         stages = emptyList(),
         stagesLink = emptyList()
     )
-    //private val repository: RecipeRepository = RecipeRepositoryImpl(AppDb.getInstance(application).recipeDao())
     private val repository: RecipeRepository = RecipeRepositoryInMemoryImpl()
 
     val data = repository.getAll()
@@ -27,14 +24,15 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun likeDislike(id: Int, myId:Int) = repository.likeDislike(id,myId)
     fun removeById(id: Int) = repository.removeById(id)
-    fun showRecipe(id: Int) = repository.showRecipe(id)
+    fun showRecipe(id: Int):Recipe{
+        return if (id == 0) empty
+        else repository.showRecipe(id)
+    }
     fun getAuthorName(id: Int) = repository.getUserName(id)
     fun getCategoryName(id: Int) = repository.getCategoryName(id)
     fun likedByMe(id: Int, myId:Int) = repository.likedByMe(id,myId)
     fun save() {
         edited.value?.let {
-            val dateFormatter = SimpleDateFormat("dd MMMM yyyy hh:mm", Locale.getDefault())
-            val date = dateFormatter.format(Date())
             val recipe = it.copy(stages = it.stages, stagesLink = it.stagesLink)
             repository.save(recipe)
         }
@@ -45,15 +43,18 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     fun saveDraft(string: String) {
         draft = string
     }
+    fun addStage(stage:String){
+        edited.value?.let{
+            edited.value = it.copy(stages = it.stages + listOf(stage))
+        }
+    }
 
-
-    fun changeStages(stages: List<String>) {
+    fun editStage(stages: List<String>) {
         edited.value?.let {
-            val newStages = stages
-            if (it.stages == newStages) {
+            if (it.stages == stages) {
                 return
             }
-            edited.value = it.copy(stages = newStages)
+            edited.value = it.copy(stages = stages)
         }
     }
 

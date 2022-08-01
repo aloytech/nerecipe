@@ -40,5 +40,17 @@
         <action
             android:id="@+id/action_editRecipe_to_showRecipeFull"
             app:destination="@id/showRecipeFull" />
+        <action
+            android:id="@+id/action_editRecipe_to_editStage"
+            app:destination="@id/editStage" />
+    </fragment>
+    <fragment
+        android:id="@+id/editStage"
+        android:name="ru.netology.nerecipe.EditStage"
+        android:label="edit_stage"
+        tools:layout="@layout/edit_stage" >
+        <action
+            android:id="@+id/action_editStage_to_editRecipe"
+            app:destination="@id/editRecipe" />
     </fragment>
 </navigation>

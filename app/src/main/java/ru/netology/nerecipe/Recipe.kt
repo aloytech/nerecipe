@@ -1,7 +1,5 @@
 package ru.netology.nerecipe
 
-import kotlin.reflect.KClass
-
 data class Recipe(
     val id: Int,
     val authorId: Int,
@@ -11,7 +9,7 @@ data class Recipe(
     val servingLink: String,
     val stages: List<String>,
     val stagesLink: List<String>
-){
+) {
     fun likesToString(): String {
         return shortCountOut(likesCount)
     }
@@ -28,7 +26,7 @@ data class Recipe(
             }
             in 10000..999999 -> {
                 val s = (count / 1000).toString()
-                "$s" + "K"
+                s + "K"
             }
             else -> {
                 val m = (count / 1000000).toString()

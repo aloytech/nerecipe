@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".EditStage">
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/edit_stage_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/food"
+        android:layout_margin="@dimen/small_spacing"
+        android:layout_gravity="center"
+        />
+    <EditText
+        android:id="@+id/edit_stage_name"
+        android:padding="@dimen/common_spacing"
+        android:textSize="@dimen/common_text_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_stage"
+        android:gravity="center"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_button"
+        style="@style/Widget.AppTheme.MenuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/save_button"
+        android:text="@string/save_button"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stages"
+        android:layout_gravity="center"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/decline_button"
+        style="@style/Widget.AppTheme.MenuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/decline_button"
+        android:text="@string/decline_button"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stages"
+        android:layout_gravity="center"
+        />
+
+</LinearLayout>

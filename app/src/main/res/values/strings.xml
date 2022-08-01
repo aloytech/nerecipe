@@ -13,6 +13,8 @@
     <string name="like_button">Toggle to add to favorites</string>
     <string name="category_button">choose category</string>
     <string name="save_button">SAVE</string>
+    <string name="decline_button">DECLINE</string>
+    <string name="enter_stage">Enter stage of cooking</string>
     <!--Categories -->
     <string name="europian">Europian</string>
     <string name="asian">Asian</string>

@@ -100,7 +100,7 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
     override fun save(recipe: Recipe) {
         if (recipe.id == 0) {
 
-            recipes = listOf(recipe.copy(id = nextId++, authorId = 1)) + recipes
+            recipes = listOf(recipe.copy(id = nextId++, getCurrentUserId())) + recipes
             data.value = recipes
             return
         }

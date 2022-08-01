@@ -14,7 +14,8 @@
     <string name="like_button">добавить в избранное</string>
     <string name="category_button">выберите категорию</string>
     <string name="save_button">СОХРАНИТЬ</string>
-
+    <string name="decline_button">ОТМЕНИТЬ</string>
+    <string name="enter_stage">Введите описание этапа приготовления</string>
     <!--Categories -->
     <string name="europian">Европейская</string>
     <string name="asian">Азиатская</string>

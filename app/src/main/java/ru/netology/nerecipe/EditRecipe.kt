@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,7 +36,7 @@ class EditRecipe : Fragment(){
         val binding: RecipeEditBinding = RecipeEditBinding.inflate(inflater, container, false)
 
         val id = arguments?.recipeIdArg
-        id?.let { init(binding, it) }
+        if (id != null) init(binding, id) else init(binding,0)
 
         //viewModel.data.observe(viewLifecycleOwner) {
           //  id?.let { init(binding, it) }
@@ -52,7 +53,7 @@ class EditRecipe : Fragment(){
             servingView.setImageDrawable(R.mipmap.food.toDrawable())
 
             recipeNameEdit.setText(recipe.name)
-            categoryButton.text = viewModel.getCategoryName(recipe.id)
+            categoryButton.text = if (id!=0) viewModel.getCategoryName(recipe.id) else "Европейская"
             categoryButton.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.menu_categories)
@@ -103,7 +104,7 @@ class EditRecipe : Fragment(){
             val manager = LinearLayoutManager(context)
             stages.layoutManager = manager
             stagesArray = ArrayList(recipe.stages)
-            val itemAdapter = StageAdapter(this.root.context,stagesArray)
+            val itemAdapter = StageAdapter(this.root.context,stagesArray,findNavController())
             //object : ItemListener {
               //      override fun onClicked(stage: String) {
                 //        Toast.makeText(context, "move", Toast.LENGTH_SHORT).show()
@@ -124,6 +125,10 @@ class EditRecipe : Fragment(){
 
             val touchHelper = ItemTouchHelper(callback)
             touchHelper.attachToRecyclerView(stages)
+            addStageButton.setOnClickListener {
+                findNavController().navigate(R.id.action_editRecipe_to_editStage)
+            }
+
         }
 
 

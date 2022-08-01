@@ -76,7 +76,7 @@ class FeedFragment : Fragment() {
 
         binding.recipeRecycler.adapter = adapter
         binding.newRecipe.setOnClickListener {
-            findNavController().navigate(R.id.action_feedFragment_to_showRecipeFull)
+            findNavController().navigate(R.id.action_feedFragment_to_editRecipe)
 
         }
 
