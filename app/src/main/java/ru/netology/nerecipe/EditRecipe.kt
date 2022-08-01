@@ -1,34 +1,30 @@
 package ru.netology.nerecipe
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.ListFragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import com.squareup.picasso.Picasso
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import ru.netology.nerecipe.FeedFragment.Companion.recipeIdArg
 import ru.netology.nerecipe.databinding.RecipeEditBinding
 //import ru.netology.nerecipe.NewPostFragment.Companion.textArg
-import ru.netology.nerecipe.databinding.RecipeFullBinding
 import ru.netology.nerecipe.databinding.RecipeShortBinding
 import java.lang.Exception
 
-class EditRecipe : Fragment() {
+class EditRecipe : Fragment(){
 
     private val viewModel: RecipeViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
     private var currentCategory = 0
+    private lateinit var stagesArray: ArrayList<String>
 
 
     override fun onCreateView(
@@ -40,9 +36,10 @@ class EditRecipe : Fragment() {
 
         val id = arguments?.recipeIdArg
         id?.let { init(binding, it) }
-        viewModel.data.observe(viewLifecycleOwner) {
-            id?.let { init(binding, it) }
-        }
+
+        //viewModel.data.observe(viewLifecycleOwner) {
+          //  id?.let { init(binding, it) }
+        //}
 
         return binding.root
     }
@@ -101,6 +98,35 @@ class EditRecipe : Fragment() {
                     }
                 }.show()
             }
+
+            //recycleView setup
+            val manager = LinearLayoutManager(context)
+            stages.layoutManager = manager
+            stagesArray = ArrayList(recipe.stages)
+            val itemAdapter = StageAdapter(this.root.context,stagesArray)
+            //object : ItemListener {
+              //      override fun onClicked(stage: String) {
+                //        Toast.makeText(context, "move", Toast.LENGTH_SHORT).show()
+                  //  }
+                //})
+
+            stages.adapter = itemAdapter
+
+            //val dividerItemDecoration = DividerItemDecoration(context, manager.orientation)
+            //stages.addItemDecoration(dividerItemDecoration)
+
+
+// Setup ItemTouchHelper
+            val callback =
+                    DragManageAdapter(
+                        itemAdapter
+                    )
+
+            val touchHelper = ItemTouchHelper(callback)
+            touchHelper.attachToRecyclerView(stages)
         }
+
+
     }
+
 }
