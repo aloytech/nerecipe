@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:padding="@dimen/common_spacing"
     tools:context=".EditRecipe">
 
@@ -74,11 +74,19 @@
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="recipe_name_edit,serving_view,category_button"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/add_stage_button"
+        app:layout_constraintBottom_toTopOf="@id/save_button"
+        >
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/stages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/add_stage_button"/>
+
+    </ScrollView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/save_button"
@@ -88,7 +96,7 @@
         android:contentDescription="@string/save_button"
         android:text="@string/save_button"
         android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stages"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

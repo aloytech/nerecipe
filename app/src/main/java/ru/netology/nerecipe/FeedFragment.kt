@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -82,8 +83,20 @@ class FeedFragment : Fragment() {
         }
 
         viewModel.data.observe(viewLifecycleOwner) { recipes ->
-            adapter.submitList(recipes)
+            adapter.modifyList(recipes)
         }
+        binding.recipeSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+
+                (binding.recipeRecycler.adapter as RecipeAdapter).filter(newText)
+                return true
+            }
+        })
 
         return binding.root
     }

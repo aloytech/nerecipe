@@ -1,7 +1,9 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_standard">32dp</dimen>
     <dimen name="common_spacing">16dp</dimen>
     <dimen name="small_spacing">8dp</dimen>
+    <dimen name="very_small_spacing">4dp</dimen>
     <dimen name="elevation">6dp</dimen>
     <dimen name="zero_pd">0dp</dimen>
     <dimen name="post_avatar_size">48dp</dimen>

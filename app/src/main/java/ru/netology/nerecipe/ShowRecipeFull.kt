@@ -13,6 +13,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.picasso.Picasso
 import ru.netology.nerecipe.FeedFragment.Companion.recipeIdArg
 //import ru.netology.nerecipe.NewPostFragment.Companion.textArg
@@ -60,28 +61,29 @@ class ShowRecipeFull : Fragment() {
                 recipeNameView.text = recipe.name
                 likeButton.text = recipe.likesToString()
                 likeButton.isChecked = viewModel.likedByMe(id, getCurrentUserId())
-                val listAdapter =
-                    ArrayAdapter(
-                        this.root.context,
-                        android.R.layout.simple_list_item_1,
-                        recipe.stages
-                    )
-                stagesListView.adapter = listAdapter
+                val manager = LinearLayoutManager(context)
+                stagesListView.layoutManager = manager
+                val itemAdapter = StageAdapter(this.root.context, ArrayList(recipe.stages), findNavController())
+                stagesListView.adapter = itemAdapter
 
                 likeButton.setOnClickListener {
                     viewModel.likeDislike(recipe.id, getCurrentUserId())
                 }
                 menuButton.setOnClickListener {
                     PopupMenu(it.context, it).apply {
-                        inflate(R.menu.menu_main)
+                        inflate(R.menu.menu_recipe)
                         setOnMenuItemClickListener { item ->
                             when (item.itemId) {
                                 R.id.removeItem -> {
+                                    viewModel.removeById(recipe.id)
+                                    findNavController().navigateUp()
                                     true
                                 }
                                 R.id.editItem -> {
-                                    viewModel.edit(recipe.id)
-                                    val stages = recipe.stages
+                                    viewModel.edit(id)
+                                    findNavController().navigate(R.id.action_showRecipeFull_to_editRecipe,
+                                        Bundle().apply
+                                        {recipeIdArg = id  })
                                     true
                                 }
                                 else -> false

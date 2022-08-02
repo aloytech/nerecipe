@@ -29,7 +29,8 @@
         <item name="iconTint">@color/md_sys_color_primary_dark</item>
     </style>
     <style name="Widget.AppTheme.MenuButton" parent="Widget.AppTheme.RepostButton">
-        <item name="maxWidth">@dimen/icon_button_min_size</item>
+        <item name="maxWidth">@dimen/fab_margin</item>
+        <item name="fabCustomSize">@dimen/fab_standard</item>
     </style>
     <style name="Widget.AppTheme.FAButton" parent="Widget.AppTheme.RepostButton">
         <item name="backgroundTint">@color/md_sys_color_tertiary</item>

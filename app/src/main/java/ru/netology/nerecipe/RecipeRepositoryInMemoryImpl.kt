@@ -14,7 +14,7 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
 
     private var users = emptyList<User>()
     private var categories = emptyList<Category>()
-    private var nextId = 3
+    private var nextId = 4
     private var recipes = emptyList<Recipe>()
     private val data = MutableLiveData(recipes)
 
@@ -49,6 +49,7 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
                     Log.d("FIREBASE", "success get ${document.data}")
                     val recipeJson = Gson().toJson(document.data)
                     val recipe = Gson().fromJson(recipeJson, Recipe::class.java)
+                    if (recipe.id > nextId) nextId = recipe.id
 
                     recipes = listOf(recipe) + recipes
                     data.value = recipes
@@ -115,13 +116,18 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
             return
         }
         recipes = recipes.map {
-            if (it.id != recipe.id) it else it.copy(
-                name = recipe.name,
-                categoryId = recipe.categoryId,
-                stages = recipe.stages,
-                stagesLink = recipe.stagesLink,
-                servingLink = recipe.servingLink
-            )
+            if (it.id != recipe.id) it else {
+                val db = Firebase.firestore
+                db.collection("recipes").document("${recipe.id}").set(recipe)
+                it.copy(
+                    name = recipe.name,
+                    categoryId = recipe.categoryId,
+                    stages = recipe.stages,
+                    stagesLink = recipe.stagesLink,
+                    servingLink = recipe.servingLink
+                )
+
+            }
         }
         data.value = recipes
     }
