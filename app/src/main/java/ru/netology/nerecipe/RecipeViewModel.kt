@@ -53,6 +53,18 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             edited.value = it.copy(servingLink = uri)
         }
     }
+
+    fun editCategory(categoryId: Int){
+        edited.value?.let{
+            edited.value = it.copy(categoryId = categoryId)
+        }
+    }
+    fun editName(name: String){
+        edited.value?.let{
+            edited.value = it.copy(name = name)
+        }
+    }
+
     fun editStages(stages: List<String>) {
         edited.value?.let {
             if (it.stages == stages) {

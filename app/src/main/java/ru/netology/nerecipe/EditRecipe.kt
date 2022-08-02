@@ -84,37 +84,37 @@ class EditRecipe : Fragment() {
                             when (item.itemId) {
                                 R.id.european -> {
                                     categoryButton.text = "Европейская"
-                                    currentCategory = 0
+                                    viewModel.editCategory(0)
                                     true
                                 }
                                 R.id.asian -> {
                                     categoryButton.text = "Азиатская"
-                                    currentCategory = 1
+                                    viewModel.editCategory(1)
                                     true
                                 }
                                 R.id.panasian -> {
                                     categoryButton.text = "Паназиатская"
-                                    currentCategory = 2
+                                    viewModel.editCategory(2)
                                     true
                                 }
                                 R.id.eastern -> {
                                     categoryButton.text = "Восточная"
-                                    currentCategory = 3
+                                    viewModel.editCategory(3)
                                     true
                                 }
                                 R.id.american -> {
                                     categoryButton.text = "Американская"
-                                    currentCategory = 4
+                                    viewModel.editCategory(4)
                                     true
                                 }
                                 R.id.russian -> {
                                     categoryButton.text = "Русская"
-                                    currentCategory = 5
+                                    viewModel.editCategory(5)
                                     true
                                 }
                                 R.id.mediterranean -> {
                                     categoryButton.text = "Средиземноморская"
-                                    currentCategory = 6
+                                    viewModel.editCategory(6)
                                     true
                                 }
                                 else -> false
@@ -152,6 +152,8 @@ class EditRecipe : Fragment() {
                     findNavController().navigate(R.id.action_editRecipe_to_editStage)
                 }
                 saveButton.setOnClickListener {
+                    viewModel.editName(recipeNameEdit.text.toString())
+
                     if (viewModel.editionCorrect() == EditCorrect.CORRECT) {
                         viewModel.save()
                         findNavController().navigateUp()
