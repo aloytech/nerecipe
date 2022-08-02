@@ -1,6 +1,8 @@
 package ru.netology.nerecipe
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +15,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.squareup.picasso.Picasso
 import ru.netology.nerecipe.FeedFragment.Companion.recipeIdArg
 import ru.netology.nerecipe.databinding.RecipeEditBinding
 //import ru.netology.nerecipe.NewPostFragment.Companion.textArg
 import ru.netology.nerecipe.databinding.RecipeShortBinding
 import java.lang.Exception
 
-class EditRecipe : Fragment(){
+class EditRecipe : Fragment() {
 
     private val viewModel: RecipeViewModel by viewModels(
         ownerProducer = ::requireParentFragment
@@ -35,103 +38,128 @@ class EditRecipe : Fragment(){
     ): View {
         val binding: RecipeEditBinding = RecipeEditBinding.inflate(inflater, container, false)
 
-        val id = arguments?.recipeIdArg
-        if (id != null) init(binding, id) else init(binding,0)
+        var id = arguments?.recipeIdArg
+        if (id == null) id = 0
+        //viewModel.edit(id)
+        init(binding, 0)
 
         //viewModel.data.observe(viewLifecycleOwner) {
-          //  id?.let { init(binding, it) }
+        //id?.let { init(binding, it) }
         //}
 
         return binding.root
     }
 
     private fun init(binding: RecipeEditBinding, id: Int) {
-        val recipe = id.let { viewModel.showRecipe(it) }
+        val recipe = viewModel.showRecipe(id)
+        if (recipe != null) {
 
-        binding.apply {
+            binding.apply {
 
-            servingView.setImageDrawable(R.mipmap.food.toDrawable())
+                if (recipe.servingLink !=""){
+                    Picasso.get().load(recipe.servingLink)
+                        .into(servingView, object : com.squareup.picasso.Callback {
+                            override fun onSuccess() {
+                                Log.i("RECIPE", "image load from url " + recipe.servingLink)
+                            }
 
-            recipeNameEdit.setText(recipe.name)
-            categoryButton.text = if (id!=0) viewModel.getCategoryName(recipe.id) else "Европейская"
-            categoryButton.setOnClickListener {
-                PopupMenu(it.context, it).apply {
-                    inflate(R.menu.menu_categories)
-                    setOnMenuItemClickListener { item ->
-                        when (item.itemId) {
-                            R.id.european -> {
-                                categoryButton.text = "Европейская"
-                                currentCategory = 0
-                                true
+                            override fun onError(e: Exception?) {
+                                servingView.setImageDrawable(R.mipmap.food.toDrawable())
                             }
-                            R.id.asian -> {
-                                categoryButton.text = "Азиатская"
-                                currentCategory = 1
-                                true
+                        })
+                }
+                else servingView.setImageDrawable(R.mipmap.food.toDrawable())
+
+                servingView.setOnClickListener {
+                    findNavController().navigate(R.id.action_editRecipe_to_galleryFragment)
+                }
+
+                recipeNameEdit.setText(recipe.name)
+                categoryButton.text =
+                    if (id != 0) viewModel.getCategoryName(recipe.id) else "Европейская"
+                categoryButton.setOnClickListener {
+                    PopupMenu(it.context, it).apply {
+                        inflate(R.menu.menu_categories)
+                        setOnMenuItemClickListener { item ->
+                            when (item.itemId) {
+                                R.id.european -> {
+                                    categoryButton.text = "Европейская"
+                                    currentCategory = 0
+                                    true
+                                }
+                                R.id.asian -> {
+                                    categoryButton.text = "Азиатская"
+                                    currentCategory = 1
+                                    true
+                                }
+                                R.id.panasian -> {
+                                    categoryButton.text = "Паназиатская"
+                                    currentCategory = 2
+                                    true
+                                }
+                                R.id.eastern -> {
+                                    categoryButton.text = "Восточная"
+                                    currentCategory = 3
+                                    true
+                                }
+                                R.id.american -> {
+                                    categoryButton.text = "Американская"
+                                    currentCategory = 4
+                                    true
+                                }
+                                R.id.russian -> {
+                                    categoryButton.text = "Русская"
+                                    currentCategory = 5
+                                    true
+                                }
+                                R.id.mediterranean -> {
+                                    categoryButton.text = "Средиземноморская"
+                                    currentCategory = 6
+                                    true
+                                }
+                                else -> false
                             }
-                            R.id.panasian -> {
-                                categoryButton.text = "Паназиатская"
-                                currentCategory = 2
-                                true
-                            }
-                            R.id.eastern -> {
-                                categoryButton.text = "Восточная"
-                                currentCategory = 3
-                                true
-                            }
-                            R.id.american -> {
-                                categoryButton.text = "Американская"
-                                currentCategory = 4
-                                true
-                            }
-                            R.id.russian -> {
-                                categoryButton.text = "Русская"
-                                currentCategory = 5
-                                true
-                            }
-                            R.id.mediterranean -> {
-                                categoryButton.text = "Средиземноморская"
-                                currentCategory = 6
-                                true
-                            }
-                            else -> false
                         }
-                    }
-                }.show()
-            }
+                    }.show()
+                }
 
-            //recycleView setup
-            val manager = LinearLayoutManager(context)
-            stages.layoutManager = manager
-            stagesArray = ArrayList(recipe.stages)
-            val itemAdapter = StageAdapter(this.root.context,stagesArray,findNavController())
-            //object : ItemListener {
-              //      override fun onClicked(stage: String) {
+                //recycleView setup
+                val manager = LinearLayoutManager(context)
+                stages.layoutManager = manager
+                stagesArray = ArrayList(recipe.stages)
+                val itemAdapter = StageAdapter(this.root.context, stagesArray, findNavController())
+                //object : ItemListener {
+                //      override fun onClicked(stage: String) {
                 //        Toast.makeText(context, "move", Toast.LENGTH_SHORT).show()
-                  //  }
+                //  }
                 //})
 
-            stages.adapter = itemAdapter
+                stages.adapter = itemAdapter
 
-            //val dividerItemDecoration = DividerItemDecoration(context, manager.orientation)
-            //stages.addItemDecoration(dividerItemDecoration)
+                //val dividerItemDecoration = DividerItemDecoration(context, manager.orientation)
+                //stages.addItemDecoration(dividerItemDecoration)
 
 
 // Setup ItemTouchHelper
-            val callback =
+                val callback =
                     DragManageAdapter(
                         itemAdapter
                     )
 
-            val touchHelper = ItemTouchHelper(callback)
-            touchHelper.attachToRecyclerView(stages)
-            addStageButton.setOnClickListener {
-                findNavController().navigate(R.id.action_editRecipe_to_editStage)
+                val touchHelper = ItemTouchHelper(callback)
+                touchHelper.attachToRecyclerView(stages)
+                addStageButton.setOnClickListener {
+                    findNavController().navigate(R.id.action_editRecipe_to_editStage)
+                }
+                saveButton.setOnClickListener {
+                    if (viewModel.editionCorrect() == EditCorrect.CORRECT) {
+                        viewModel.save()
+                        findNavController().navigateUp()
+                    } else Toast.makeText(this.root.context,viewModel.editionCorrect().toString() , Toast.LENGTH_SHORT).show()
+
+                }
+
             }
-
-        }
-
-
+        } else findNavController().navigateUp()
     }
-
 }

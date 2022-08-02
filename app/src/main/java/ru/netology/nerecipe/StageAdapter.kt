@@ -59,7 +59,7 @@ class StageAdapter(private val context: Context, var stageList : ArrayList<Strin
         notifyItemMoved(fromPosition, toPosition)
     }
     fun editItem(position: Int){
-        val text = stageList[position]
+        val text = position.toString() + "$$" + stageList[position]
         removeItem(position)
         navController.navigate(R.id.action_editRecipe_to_editStage, Bundle().apply { textArg= text})
     }

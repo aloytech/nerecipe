@@ -45,46 +45,48 @@ class ShowRecipeShort : Fragment() {
 
     private fun init(binding: RecipeShortBinding, id: Int) {
         val recipe = id.let { viewModel.showRecipe(it) }
-        binding.apply {
-            authorTextView.text = viewModel.getAuthorName(id)
-            Picasso.get().load(recipe.servingLink)
-                .into(servingView, object : com.squareup.picasso.Callback {
-                    override fun onSuccess() {
-                        Log.i("RECIPE", "image load from url " + recipe.servingLink)
-                    }
-
-                    override fun onError(e: Exception?) {
-                        servingView.setImageDrawable(R.mipmap.food.toDrawable())
-                    }
-                })
-
-            recipeNameView.text = recipe.name
-            likeButton.text = recipe.likesToString()
-            likeButton.isChecked = false
-
-            likeButton.setOnClickListener {
-                viewModel.likeDislike(recipe.id, getCurrentUserId())
-            }
-            menuButton.setOnClickListener {
-                PopupMenu(it.context, it).apply {
-                    inflate(R.menu.menu_main)
-                    setOnMenuItemClickListener { item ->
-                        when (item.itemId) {
-                            R.id.removeItem -> {
-
-                                true
-                            }
-                            R.id.editItem -> {
-                                viewModel.edit(recipe.id)
-                                val stages = recipe.stages
-
-                                true
-                            }
-                            else -> false
+        if (recipe != null) {
+            binding.apply {
+                authorTextView.text = viewModel.getAuthorName(id)
+                Picasso.get().load(recipe.servingLink)
+                    .into(servingView, object : com.squareup.picasso.Callback {
+                        override fun onSuccess() {
+                            Log.i("RECIPE", "image load from url " + recipe.servingLink)
                         }
-                    }
-                }.show()
+
+                        override fun onError(e: Exception?) {
+                            servingView.setImageDrawable(R.mipmap.food.toDrawable())
+                        }
+                    })
+
+                recipeNameView.text = recipe.name
+                likeButton.text = recipe.likesToString()
+                likeButton.isChecked = false
+
+                likeButton.setOnClickListener {
+                    viewModel.likeDislike(recipe.id, getCurrentUserId())
+                }
+                menuButton.setOnClickListener {
+                    PopupMenu(it.context, it).apply {
+                        inflate(R.menu.menu_main)
+                        setOnMenuItemClickListener { item ->
+                            when (item.itemId) {
+                                R.id.removeItem -> {
+
+                                    true
+                                }
+                                R.id.editItem -> {
+                                    viewModel.edit(recipe.id)
+                                    val stages = recipe.stages
+
+                                    true
+                                }
+                                else -> false
+                            }
+                        }
+                    }.show()
+                }
             }
-        }
+        }else findNavController().navigateUp()
     }
 }

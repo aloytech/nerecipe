@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_editRecipe_to_editStage"
             app:destination="@id/editStage" />
+        <action
+            android:id="@+id/action_editRecipe_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
     </fragment>
     <fragment
         android:id="@+id/editStage"
@@ -51,6 +54,15 @@
         tools:layout="@layout/edit_stage" >
         <action
             android:id="@+id/action_editStage_to_editRecipe"
+            app:destination="@id/editRecipe" />
+    </fragment>
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="ru.netology.nerecipe.imagestorage.GalleryFragment"
+        android:label="fragment_gallery"
+        tools:layout="@layout/fragment_gallery" >
+        <action
+            android:id="@+id/action_galleryFragment_to_editRecipe"
             app:destination="@id/editRecipe" />
     </fragment>
 </navigation>

@@ -76,6 +76,7 @@ class FeedFragment : Fragment() {
 
         binding.recipeRecycler.adapter = adapter
         binding.newRecipe.setOnClickListener {
+            viewModel.edit(0)
             findNavController().navigate(R.id.action_feedFragment_to_editRecipe)
 
         }

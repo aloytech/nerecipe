@@ -25,10 +25,10 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    Log.d("FIREBASE","success get ${document.data}")
+                    Log.d("FIREBASE", "success get ${document.data}")
                     val userJson = Gson().toJson(document.data)
-                    val user = Gson().fromJson(userJson,User::class.java)
-                    users = listOf(user)+users
+                    val user = Gson().fromJson(userJson, User::class.java)
+                    users = listOf(user) + users
                 }
             }
 
@@ -45,17 +45,17 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
         db.collection("recipes")
             .get()
             .addOnSuccessListener { documents ->
-                for (document in documents){
-                    Log.d("FIREBASE","success get ${document.data}")
+                for (document in documents) {
+                    Log.d("FIREBASE", "success get ${document.data}")
                     val recipeJson = Gson().toJson(document.data)
-                    val recipe = Gson().fromJson(recipeJson,Recipe::class.java)
+                    val recipe = Gson().fromJson(recipeJson, Recipe::class.java)
 
                     recipes = listOf(recipe) + recipes
                     data.value = recipes
                 }
             }
             .addOnFailureListener { exception ->
-                Log.d("FIREBASE","error get",exception)
+                Log.d("FIREBASE", "error get", exception)
             }
 
         data.value = recipes
@@ -99,16 +99,31 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
 
     override fun save(recipe: Recipe) {
         if (recipe.id == 0) {
-
-            recipes = listOf(recipe.copy(id = nextId++, getCurrentUserId())) + recipes
+            val newRecipe = recipe.copy(
+                id = nextId++,
+                authorId = getCurrentUserId(),
+                name = recipe.name,
+                stages = recipe.stages,
+                stagesLink = recipe.stagesLink,
+                servingLink = recipe.servingLink,
+                categoryId = recipe.categoryId
+            )
+            recipes = listOf(newRecipe) + recipes
             data.value = recipes
+            val db = Firebase.firestore
+            db.collection("recipes").document("${newRecipe.id}").set(newRecipe)
             return
         }
         recipes = recipes.map {
-            if (it.id != recipe.id) it else it.copy(stages = recipe.stages)
+            if (it.id != recipe.id) it else it.copy(
+                name = recipe.name,
+                categoryId = recipe.categoryId,
+                stages = recipe.stages,
+                stagesLink = recipe.stagesLink,
+                servingLink = recipe.servingLink
+            )
         }
         data.value = recipes
-
     }
 
     override fun showRecipe(id: Int): Recipe {

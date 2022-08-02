@@ -17,6 +17,7 @@ class EditStage : Fragment() {
     private val viewModel: RecipeViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
+    private var editedStage: String = ""
     companion object {
         var Bundle.textArg: String? by StringArg
     }
@@ -36,20 +37,23 @@ class EditStage : Fragment() {
         }
         binding.saveButton.setOnClickListener {
             val content = binding.editStageName.text.toString()
-            viewModel.addStage(content)
-            viewModel.save()
+            if (editedStage == "") {
+                viewModel.addStage(content)
+            } else viewModel.editStage(editedStage.toInt(),content)
+            editedStage = ""
             AndroidUtils.hideKeyboard(requireView())
             findNavController().navigateUp()
         }
 
         arguments?.textArg
             ?.let{
-                binding.editStageName.setText(it)
+                editedStage = it.substringBefore("$$")
+                binding.editStageName.setText(it.substringAfter("$$"))
             }
 
 
         binding.declineButton.setOnClickListener {
-            binding.editStageName.text.clear()
+            findNavController().navigateUp()
         }
 
         val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {

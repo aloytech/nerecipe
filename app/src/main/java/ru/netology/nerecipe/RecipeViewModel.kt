@@ -12,7 +12,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         name = "",
         categoryId = 0,
         likesCount = 0,
-        servingLink = "",
+        servingLink = "https://foma.ru/fotos/online/online%202013/maslenitsa2013/recepty/prostye_2.jpg",
         stages = emptyList(),
         stagesLink = emptyList()
     )
@@ -24,8 +24,8 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun likeDislike(id: Int, myId:Int) = repository.likeDislike(id,myId)
     fun removeById(id: Int) = repository.removeById(id)
-    fun showRecipe(id: Int):Recipe{
-        return if (id == 0) empty
+    fun showRecipe(id: Int):Recipe?{
+        return if (id == 0) edited.value
         else repository.showRecipe(id)
     }
     fun getAuthorName(id: Int) = repository.getUserName(id)
@@ -33,8 +33,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     fun likedByMe(id: Int, myId:Int) = repository.likedByMe(id,myId)
     fun save() {
         edited.value?.let {
-            val recipe = it.copy(stages = it.stages, stagesLink = it.stagesLink)
-            repository.save(recipe)
+            repository.save(it)
         }
         edited.value = empty
         draft = ""
@@ -49,7 +48,12 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun editStage(stages: List<String>) {
+    fun editServing(uri:String){
+        edited.value?.let{
+            edited.value = it.copy(servingLink = uri)
+        }
+    }
+    fun editStages(stages: List<String>) {
         edited.value?.let {
             if (it.stages == stages) {
                 return
@@ -57,8 +61,19 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             edited.value = it.copy(stages = stages)
         }
     }
+    fun editStage(index:Int, content: String) {
+        edited.value?.let {
+            var newStages = it.stages.toMutableList()
+            newStages[index] = content
+
+            edited.value = it.copy(stages = newStages)
+        }
+    }
 
     fun edit(id:Int) {
-        edited.value = repository.showRecipe(id)
+        edited.value = if (id == 0 ) empty else repository.showRecipe(id)
+    }
+    fun editionCorrect():EditCorrect{
+        return EditCorrect.CORRECT
     }
 }

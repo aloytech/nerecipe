@@ -18,9 +18,9 @@ class DragManageAdapter(adapter: StageAdapter) : ItemTouchHelper.Callback()
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        if (direction == ItemTouchHelper.START){
+        if (direction == ItemTouchHelper.END){
             stageAdapter.removeItem(viewHolder.bindingAdapterPosition)
-        } else if (direction == ItemTouchHelper.END){
+        } else if (direction == ItemTouchHelper.START){
             stageAdapter.editItem(viewHolder.bindingAdapterPosition)
         }
     }
