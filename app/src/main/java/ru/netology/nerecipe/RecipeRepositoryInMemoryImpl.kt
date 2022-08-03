@@ -78,7 +78,12 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
                     db.collection("users").document("$myId").set(user)
                     user
                 } else {
-                    val user = it.copy(favorites = it.favorites?.plusElement(id))
+                    val newFavorites = if (it.favorites.isNullOrEmpty()){
+                        listOf(id)
+                    } else{
+                        listOf(id) + it.favorites
+                    }
+                    val user = it.copy(favorites = newFavorites)
                     db.collection("users").document("$myId").set(user)
                     user
                 }
@@ -105,7 +110,20 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
 
 
     override fun removeById(id: Int) {
+
+        val db = Firebase.firestore
+        db.collection("recipes").document("$id").delete()
         recipes = recipes.filter { it.id != id }
+        users = users.map {
+            if (it.iLikeIt(id)) {
+                val user = it.copy(favorites = it.favorites?.minusElement(id))
+                db.collection("users").document("${user.uid}").set(user)
+                user
+            } else {
+                it
+            }
+        }
+
         data.value = recipes
     }
 
@@ -158,10 +176,7 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
     }
 
     override fun likedByMe(id: Int, myId: Int): Boolean {
-        val favorites = users.find { it.uid == myId }!!.favorites
-        if (favorites != null) {
-            return favorites.contains(id)
-        }
-        return false
+        return users.find {
+            it.uid == myId }!!.iLikeIt(id)
     }
 }

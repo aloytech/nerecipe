@@ -9,4 +9,10 @@ data class User(
     override fun toString(): String {
         return userName
     }
+    fun iLikeIt(id:Int):Boolean{
+        favorites?.let{
+            if (it.contains(id)) return true
+        }
+        return false
+    }
 }
