@@ -66,26 +66,37 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
 
     override fun likeDislike(id: Int, myId: Int) {
 
+        val db = Firebase.firestore
         val likedByMe = likedByMe(id, myId)
+
         users = users.map {
             if (it.uid != myId) {
                 it
             } else {
                 if (likedByMe) {
-                    it.copy(favorites = it.favorites?.minusElement(id))
+                    val user = it.copy(favorites = it.favorites?.minusElement(id))
+                    db.collection("users").document("$myId").set(user)
+                    user
                 } else {
-                    it.copy(favorites = it.favorites?.plusElement(id))
+                    val user = it.copy(favorites = it.favorites?.plusElement(id))
+                    db.collection("users").document("$myId").set(user)
+                    user
                 }
             }
         }
+
         recipes = recipes.map {
             if (it.id != id) {
                 it
             } else {
                 if (likedByMe) {
-                    it.copy(likesCount = it.likesCount - 1)
+                    val recipe = it.copy(likesCount = it.likesCount - 1)
+                    db.collection("recipes").document("$id").set(recipe)
+                    recipe
                 } else {
-                    it.copy(likesCount = it.likesCount + 1)
+                    val recipe = it.copy(likesCount = it.likesCount + 1)
+                    db.collection("recipes").document("$id").set(recipe)
+                    recipe
                 }
             }
         }

@@ -13,6 +13,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.picasso.Picasso
 import ru.netology.nerecipe.FeedFragment.Companion.recipeIdArg
@@ -59,12 +60,17 @@ class ShowRecipeFull : Fragment() {
                         }
                     })
                 recipeNameView.text = recipe.name
+                categoryView.text = viewModel.getCategoryName(recipe.id)
                 likeButton.text = recipe.likesToString()
                 likeButton.isChecked = viewModel.likedByMe(id, getCurrentUserId())
                 val manager = LinearLayoutManager(context)
                 stagesListView.layoutManager = manager
                 val itemAdapter = StageAdapter(this.root.context, ArrayList(recipe.stages), findNavController())
                 stagesListView.adapter = itemAdapter
+                stagesListView.addItemDecoration(
+                    DividerItemDecoration(context,
+                        DividerItemDecoration.VERTICAL)
+                )
 
                 likeButton.setOnClickListener {
                     viewModel.likeDislike(recipe.id, getCurrentUserId())

@@ -10,6 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 //import kotlinx.android.synthetic.main.fragment_feed.*
 import ru.netology.nerecipe.databinding.FragmentFeedBinding
 //import ru.netology.nmedia.NewPostFragment.Companion.textArg
@@ -76,6 +77,7 @@ class FeedFragment : Fragment() {
         })
 
         binding.recipeRecycler.adapter = adapter
+        binding.recipeRecycler.addItemDecoration(DividerItemDecoration(context,DividerItemDecoration.VERTICAL))
         binding.newRecipe.setOnClickListener {
             viewModel.edit(0)
             findNavController().navigate(R.id.action_feedFragment_to_editRecipe)

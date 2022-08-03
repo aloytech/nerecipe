@@ -75,8 +75,7 @@ class EditRecipe : Fragment() {
                 }
 
                 recipeNameEdit.setText(recipe.name)
-                categoryButton.text =
-                    if (id != 0) viewModel.getCategoryName(recipe.id) else "Европейская"
+                categoryButton.text = if(recipe.id !=0)viewModel.getCategoryName(recipe.id) else "Европейская"
                 categoryButton.setOnClickListener {
                     PopupMenu(it.context, it).apply {
                         inflate(R.menu.menu_categories)
@@ -135,6 +134,7 @@ class EditRecipe : Fragment() {
                 //})
 
                 stages.adapter = itemAdapter
+                stages.addItemDecoration(DividerItemDecoration(context,DividerItemDecoration.VERTICAL))
 
                 //val dividerItemDecoration = DividerItemDecoration(context, manager.orientation)
                 //stages.addItemDecoration(dividerItemDecoration)

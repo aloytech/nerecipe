@@ -16,17 +16,25 @@
         app:queryBackground="@null"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recipe_recycler"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recipe_search"
-        app:layout_wrapBehaviorInParent="vertical_only"
-        tools:listitem="@layout/recipe_short"
+        android:layout_margin="@dimen/very_small_spacing"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recipe_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_wrapBehaviorInParent="vertical_only"
+            tools:listitem="@layout/recipe_short"
 
-        />
+            />
+    </ScrollView>
+
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/new_recipe"
         android:layout_width="wrap_content"
