@@ -80,8 +80,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/show_menu"
-        android:elevation="@dimen/common_spacing"
-        app:backgroundTint="@color/cardview_shadow_end_color"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -94,7 +92,6 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/like_button"
-        style="@style/Widget.AppTheme.LikeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checkable="true"
@@ -104,8 +101,6 @@
         app:layout_constraintTop_toBottomOf="@id/menu_button"
         app:layout_constraintEnd_toEndOf="@id/menu_button"
         tools:checked="true"
-        android:ellipsize="end"
-        app:backgroundTint="@color/cardview_shadow_end_color"
         tools:text="@sample/recipes.json/recipes/likesCount" />
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/serving_barrier_bottom"

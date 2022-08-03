@@ -23,7 +23,7 @@ class RecipeAdapter(
         holder.bind(recipe)
     }
     var unfilteredList = listOf<Recipe>()
-    var mFilteredList: List<Recipe>? = null
+    var mFilterList = listOf<Recipe>()
 
     fun modifyList(list : List<Recipe>) {
         unfilteredList = list
@@ -41,7 +41,6 @@ class RecipeAdapter(
         } else {
             list.addAll(unfilteredList)
         }
-
         submitList(list)
     }
     fun filterByCategory(selected: String) {
@@ -54,9 +53,19 @@ class RecipeAdapter(
         } else {
             list.addAll(unfilteredList)
         }
+        mFilterList = list
+        submitList(list)
+    }
+    fun filterByFavorites() {
+        val list = mutableListOf<Recipe>()
+        if (mFilterList.isEmpty()) mFilterList = unfilteredList
+            list.addAll(mFilterList.filter {
+                getByKey.getLikedByMe(it.id, getCurrentUserId())
+            })
 
         submitList(list)
     }
+
 
     }
 

@@ -16,23 +16,23 @@
         <item name="textInputStyle">@style/Widget.Material3.TextInputLayout.OutlinedBox</item>
 
     </style>
-    <style name="Widget.AppTheme.LikeButton" parent="Widget.MaterialComponents.Button">
-        <item name="iconTint">@color/md_sys_color_tertiary</item>
+    <style name="Widget.AppTheme.LikeButton" parent="Widget.Material3.Button">
+        <item name="iconTint">@color/md_sys_color_on_tertiary</item>
         <item name="minWidth">@dimen/icon_button_min_size</item>
         <item name="minHeight">@dimen/icon_button_min_size</item>
         <item name="backgroundTint">@color/md_sys_color_background</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="elevation">@dimen/elevation</item>
-        <item name="borderWidth">@dimen/zero_pd</item>
     </style>
-    <style name="Widget.AppTheme.RepostButton" parent="Widget.AppTheme.LikeButton">
-        <item name="iconTint">@color/md_sys_color_primary_dark</item>
-    </style>
-    <style name="Widget.AppTheme.MenuButton" parent="Widget.AppTheme.RepostButton">
+
+    <style name="Widget.AppTheme.MenuButton" parent="Widget.AppTheme.FAButton">
         <item name="maxWidth">@dimen/fab_margin</item>
         <item name="fabCustomSize">@dimen/fab_standard</item>
+
     </style>
-    <style name="Widget.AppTheme.FAButton" parent="Widget.AppTheme.RepostButton">
+    <style name="Widget.AppTheme.FAButton" parent="Widget.AppTheme.LikeButton">
         <item name="backgroundTint">@color/md_sys_color_tertiary</item>
+        <item name="maxImageSize">@dimen/fab_standard</item>
+        <item name="android:textColor">@color/md_sys_color_on_tertiary</item>
     </style>
 </resources>

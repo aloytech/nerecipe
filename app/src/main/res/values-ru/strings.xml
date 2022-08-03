@@ -16,6 +16,8 @@
     <string name="save_button">СОХРАНИТЬ</string>
     <string name="decline_button">ОТМЕНИТЬ</string>
     <string name="filter_button">Выбор категорий для отображения</string>
+    <string name="new_recipe_button">Создать новый рецепт</string>
+    <string name="show_favorites_button">избранное</string>
     <string name="enter_stage">Введите описание этапа приготовления</string>
     <!--Categories -->
     <string name="europian">Европейская</string>

@@ -1,7 +1,6 @@
 package ru.netology.nerecipe
 
-import android.content.Intent
-import android.net.Uri
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import ru.netology.nerecipe.EditStage.Companion.textArg
-//import kotlinx.android.synthetic.main.fragment_feed.*
 import ru.netology.nerecipe.databinding.FragmentFeedBinding
-
-//import ru.netology.nmedia.NewPostFragment.Companion.textArg
 
 class FeedFragment : Fragment() {
 
@@ -40,13 +36,12 @@ class FeedFragment : Fragment() {
         if (id != null) {
             viewModel.removeById(id)
         }
-        var filterString: String = ""
-        var filterFlag: String = ""
+        var filterString = ""
+        var filterFlag = ""
         arguments?.textArg
             ?.let {
                 filterFlag = it.substringBefore("$$")
                 filterString = it.substringAfter("$$")
-
             }
 
         val adapter = RecipeAdapter(object : OnInteractionListener {
@@ -86,7 +81,21 @@ class FeedFragment : Fragment() {
 
         })
 
+
         binding.recipeRecycler.adapter = adapter
+
+        viewModel.data.observe(viewLifecycleOwner) { recipes ->
+            adapter.modifyList(recipes)
+            if (filterFlag != "") {
+                adapter.filterByCategory(filterString)
+                if (filterFlag =="2"){
+                    adapter.filterByFavorites()
+                    binding.showFavoritesButton.isChecked = true
+                }
+            }
+        }
+
+
         binding.recipeRecycler.addItemDecoration(
             DividerItemDecoration(
                 context,
@@ -98,13 +107,12 @@ class FeedFragment : Fragment() {
             findNavController().navigate(R.id.action_feedFragment_to_editRecipe)
 
         }
+        binding.filterButton.isChecked = filterFlag!="" && filterString!="0123456"
         binding.filterButton.setOnClickListener {
-            findNavController().navigate(R.id.action_feedFragment_to_filterFragment)
+            if (!binding.showFavoritesButton.isChecked)findNavController().navigate(R.id.action_feedFragment_to_filterFragment)
+            else findNavController().navigate(R.id.action_feedFragment_to_filterFragment, Bundle().apply { textArg= "2"})
         }
 
-        viewModel.data.observe(viewLifecycleOwner) { recipes ->
-            adapter.modifyList(recipes)
-        }
         binding.recipeSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
 
@@ -113,12 +121,19 @@ class FeedFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String): Boolean {
 
-                (binding.recipeRecycler.adapter as RecipeAdapter).filter(newText)
+                adapter.filter(newText)
                 return true
             }
         })
-        if (filterFlag == "1") {
-            (binding.recipeRecycler.adapter as RecipeAdapter).filterByCategory(filterString)
+        binding.showFavoritesButton.setOnClickListener {
+            if (binding.showFavoritesButton.isChecked) {
+                if (filterFlag != "") adapter.filterByCategory(filterString)
+                adapter.filterByFavorites()
+            }
+            else{
+                adapter.filter(null)
+                if (filterFlag != "") adapter.filterByCategory(filterString)
+            }
         }
 
         return binding.root

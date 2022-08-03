@@ -1,3 +1,3 @@
 package ru.netology.nerecipe
 
-fun getCurrentUserId() = 1
+fun getCurrentUserId() = 0
