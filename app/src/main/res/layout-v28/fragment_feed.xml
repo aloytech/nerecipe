@@ -25,13 +25,13 @@
         style="@style/Widget.AppTheme.MenuButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/filter_button"
+        android:contentDescription="@string/show_menu"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/ic_round_filter_list_24"
         />
-
+    
 
     <ScrollView
         android:layout_width="match_parent"

@@ -44,6 +44,19 @@ class RecipeAdapter(
 
         submitList(list)
     }
+    fun filterByCategory(selected: String) {
+        val list = mutableListOf<Recipe>()
+
+        if(selected.isNotEmpty()) {
+            list.addAll(unfilteredList.filter {
+                selected.contains(it.categoryId.toString())
+                    })
+        } else {
+            list.addAll(unfilteredList)
+        }
+
+        submitList(list)
+    }
 
     }
 

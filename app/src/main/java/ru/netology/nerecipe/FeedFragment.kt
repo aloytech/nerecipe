@@ -11,8 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import ru.netology.nerecipe.EditStage.Companion.textArg
 //import kotlinx.android.synthetic.main.fragment_feed.*
 import ru.netology.nerecipe.databinding.FragmentFeedBinding
+
 //import ru.netology.nmedia.NewPostFragment.Companion.textArg
 
 class FeedFragment : Fragment() {
@@ -38,21 +40,29 @@ class FeedFragment : Fragment() {
         if (id != null) {
             viewModel.removeById(id)
         }
+        var filterString: String = ""
+        var filterFlag: String = ""
+        arguments?.textArg
+            ?.let {
+                filterFlag = it.substringBefore("$$")
+                filterString = it.substringAfter("$$")
+
+            }
 
         val adapter = RecipeAdapter(object : OnInteractionListener {
-            override fun onLikeListener(id: Int, likedByMe:Boolean) {
-                viewModel.likeDislike(id,getCurrentUserId())
+            override fun onLikeListener(id: Int, likedByMe: Boolean) {
+                viewModel.likeDislike(id, getCurrentUserId())
             }
 
             override fun onRemoveListener(id: Int) {
                 viewModel.removeById(id)
             }
 
-            override fun onEditItem(id:Int) {
+            override fun onEditItem(id: Int) {
                 viewModel.edit(id)
                 findNavController().navigate(R.id.action_feedFragment_to_editRecipe,
-                Bundle().apply
-                 {recipeIdArg = id  })
+                    Bundle().apply
+                    { recipeIdArg = id })
             }
 
             override fun onShowRecipe(id: Int) {
@@ -61,13 +71,13 @@ class FeedFragment : Fragment() {
                         recipeIdArg = id
                     })
             }
-        },object : GetByKey{
+        }, object : GetByKey {
             override fun getAuthorName(recipeId: Int): String {
                 return viewModel.getAuthorName(recipeId)
             }
 
             override fun getLikedByMe(recipeId: Int, myId: Int): Boolean {
-                return viewModel.likedByMe(recipeId,myId)
+                return viewModel.likedByMe(recipeId, myId)
             }
 
             override fun getCategory(recipeId: Int): String {
@@ -77,11 +87,19 @@ class FeedFragment : Fragment() {
         })
 
         binding.recipeRecycler.adapter = adapter
-        binding.recipeRecycler.addItemDecoration(DividerItemDecoration(context,DividerItemDecoration.VERTICAL))
+        binding.recipeRecycler.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         binding.newRecipe.setOnClickListener {
             viewModel.edit(0)
             findNavController().navigate(R.id.action_feedFragment_to_editRecipe)
 
+        }
+        binding.filterButton.setOnClickListener {
+            findNavController().navigate(R.id.action_feedFragment_to_filterFragment)
         }
 
         viewModel.data.observe(viewLifecycleOwner) { recipes ->
@@ -99,6 +117,9 @@ class FeedFragment : Fragment() {
                 return true
             }
         })
+        if (filterFlag == "1") {
+            (binding.recipeRecycler.adapter as RecipeAdapter).filterByCategory(filterString)
+        }
 
         return binding.root
     }

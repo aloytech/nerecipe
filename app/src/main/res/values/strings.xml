@@ -14,6 +14,7 @@
     <string name="category_button">choose category</string>
     <string name="save_button">SAVE</string>
     <string name="decline_button">DECLINE</string>
+    <string name="filter_button">choose category to show</string>
     <string name="enter_stage">Enter stage of cooking</string>
     <!--Categories -->
     <string name="europian">Europian</string>
