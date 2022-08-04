@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -31,29 +32,36 @@ class EditStage : Fragment() {
         val binding: EditStageBinding =
             EditStageBinding.inflate(inflater, container, false)
 
-        binding.editStageName.requestFocus()
-        if (viewModel.draft != "") {
-            binding.editStageName.setText(viewModel.draft)
-        }
-        binding.saveButton.setOnClickListener {
-            val content = binding.editStageName.text.toString()
-            if (editedStage == "") {
-                viewModel.addStage(content)
-            } else viewModel.editStage(editedStage.toInt(), content)
-            editedStage = ""
-            AndroidUtils.hideKeyboard(requireView())
-            findNavController().navigateUp()
-        }
-
         arguments?.textArg
             ?.let {
                 editedStage = it.substringBefore("$$")
                 binding.editStageName.setText(it.substringAfter("$$"))
             }
 
+        binding.editStageName.requestFocus()
+        if (viewModel.draft != "") {
+            binding.editStageName.setText(viewModel.draft)
+        }
+        binding.saveButton.setOnClickListener {
+            val content = binding.editStageName.text.toString()
+            if (content != "") {
+                if (editedStage == "") {
+                    viewModel.addStage(content)
+                } else viewModel.editStage(editedStage.toInt(), content)
+                editedStage = ""
+                viewModel.saveDraft("")
+                AndroidUtils.hideKeyboard(requireView())
+                findNavController().navigateUp()
+            } else {
+                Toast.makeText(activity, "Описание не может быть пустым", Toast.LENGTH_LONG).show()
+            }
+
+        }
+
 
         binding.declineButton.setOnClickListener {
             findNavController().navigateUp()
+            viewModel.saveDraft("")
         }
 
         val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {

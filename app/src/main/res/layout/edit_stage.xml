@@ -22,7 +22,7 @@
         android:textSize="@dimen/common_text_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/enter_stage"
+        android:hint="@string/enter_stage"
         android:gravity="center"
         />
     <com.google.android.material.button.MaterialButton
