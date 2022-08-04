@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.picasso.Picasso
+import ru.netology.nerecipe.EditStage.Companion.textArg
 import ru.netology.nerecipe.FeedFragment.Companion.recipeIdArg
 //import ru.netology.nerecipe.NewPostFragment.Companion.textArg
 import ru.netology.nerecipe.databinding.RecipeFullBinding
@@ -82,7 +83,7 @@ class ShowRecipeFull : Fragment() {
                             when (item.itemId) {
                                 R.id.removeItem -> {
                                     viewModel.removeById(recipe.id)
-                                    findNavController().navigateUp()
+                                    findNavController().navigate(R.id.action_showRecipeFull_to_feedFragment)
                                     true
                                 }
                                 R.id.editItem -> {

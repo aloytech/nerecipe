@@ -20,14 +20,14 @@
         <item name="iconTint">@color/md_sys_color_on_tertiary</item>
         <item name="minWidth">@dimen/icon_button_min_size</item>
         <item name="minHeight">@dimen/icon_button_min_size</item>
-        <item name="backgroundTint">@color/md_sys_color_background</item>
+        <item name="backgroundTint">@color/md_sys_color_tertiary</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="elevation">@dimen/elevation</item>
     </style>
 
-    <style name="Widget.AppTheme.MenuButton" parent="Widget.AppTheme.FAButton">
-        <item name="maxWidth">@dimen/fab_margin</item>
-        <item name="fabCustomSize">@dimen/fab_standard</item>
+    <style name="Widget.AppTheme.MenuButton" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="fabCustomSize">@dimen/post_avatar_size</item>
+        <item name="backgroundTint">@color/cardview_shadow_end_color</item>
 
     </style>
     <style name="Widget.AppTheme.FAButton" parent="Widget.AppTheme.LikeButton">

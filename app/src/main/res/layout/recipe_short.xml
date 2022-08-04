@@ -94,6 +94,7 @@
         android:id="@+id/like_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/Widget.AppTheme.LikeButton"
         android:checkable="true"
         android:contentDescription="@string/like_button"
         android:visibility="visible"
