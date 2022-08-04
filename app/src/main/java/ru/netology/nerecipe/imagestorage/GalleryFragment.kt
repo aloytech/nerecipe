@@ -1,10 +1,9 @@
 package ru.netology.nerecipe.imagestorage
 
-import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +15,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
-import com.squareup.picasso.Picasso
+import ru.netology.nerecipe.EMPTY_DESCRIPTION
+import ru.netology.nerecipe.ERROR_SERVER
 import ru.netology.nerecipe.RecipeViewModel
+import ru.netology.nerecipe.TAG_FIREBASE
 import ru.netology.nerecipe.databinding.FragmentGalleryBinding
 import java.util.*
 
@@ -31,7 +31,6 @@ class GalleryFragment : Fragment() {
         ownerProducer = ::requireParentFragment
     )
 
-    private val PICK_IMAGE_REQUEST = 71
     private var filePath: Uri? = null
     private var firebaseStore: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
@@ -55,15 +54,10 @@ class GalleryFragment : Fragment() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        //val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         pickImages.launch("image/*")
-
-       //startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST)
     }
     private val pickImages = registerForActivityResult(ActivityResultContracts.GetContent()){ uri: Uri? ->
         uri?.let { it ->
-            // The image was saved into the given Uri -> do something with it
-            //Picasso.get().load(it).resize(800,800).into(imageView)
             filePath = it
             imageView.setImageURI(it)
         }
@@ -85,9 +79,9 @@ class GalleryFragment : Fragment() {
                     val downloadUri = task.result
                     viewModel.editServing(downloadUri.toString())
                     findNavController().navigateUp()
-                    //addUploadRecordToDb(downloadUri.toString())
                 } else {
-                    // Handle failures
+                    Toast.makeText(activity, ERROR_SERVER, Toast.LENGTH_LONG).show()
+                    Log.w(TAG_FIREBASE, ERROR_SERVER)
                 }
             }?.addOnFailureListener{
 
@@ -96,20 +90,4 @@ class GalleryFragment : Fragment() {
             Toast.makeText(context, "Please Upload an Image", Toast.LENGTH_SHORT).show()
         }
     }
-    private fun addUploadRecordToDb(uri: String){
-        val db = FirebaseFirestore.getInstance()
-
-        val data = HashMap<String, Any>()
-        data["imageUrl"] = uri
-
-        db.collection("posts")
-            .add(data)
-            .addOnSuccessListener { documentReference ->
-                Toast.makeText(context, "Saved to DB", Toast.LENGTH_LONG).show()
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(context, "Error saving to DB", Toast.LENGTH_LONG).show()
-            }
-    }
-
 }

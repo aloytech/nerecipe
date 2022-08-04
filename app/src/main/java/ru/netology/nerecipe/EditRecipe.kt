@@ -62,45 +62,44 @@ class EditRecipe : Fragment() {
                 }
 
                 recipeNameEdit.setText(recipe.name)
-                categoryButton.text =
-                    if (recipe.id != 0) viewModel.getCategoryName(recipe.id) else "Европейская"
+                categoryButton.text = viewModel.getCategoryName(recipe.id)
                 categoryButton.setOnClickListener {
                     PopupMenu(it.context, it).apply {
                         inflate(R.menu.menu_categories)
                         setOnMenuItemClickListener { item ->
                             when (item.itemId) {
                                 R.id.european -> {
-                                    categoryButton.text = "Европейская"
+                                    categoryButton.text = EUR
                                     viewModel.editCategory(0)
                                     true
                                 }
                                 R.id.asian -> {
-                                    categoryButton.text = "Азиатская"
+                                    categoryButton.text = ASIA
                                     viewModel.editCategory(1)
                                     true
                                 }
                                 R.id.panasian -> {
-                                    categoryButton.text = "Паназиатская"
+                                    categoryButton.text = PAN_ASIA
                                     viewModel.editCategory(2)
                                     true
                                 }
                                 R.id.eastern -> {
-                                    categoryButton.text = "Восточная"
+                                    categoryButton.text = EAST
                                     viewModel.editCategory(3)
                                     true
                                 }
                                 R.id.american -> {
-                                    categoryButton.text = "Американская"
+                                    categoryButton.text = USA
                                     viewModel.editCategory(4)
                                     true
                                 }
                                 R.id.russian -> {
-                                    categoryButton.text = "Русская"
+                                    categoryButton.text = RUS
                                     viewModel.editCategory(5)
                                     true
                                 }
                                 R.id.mediterranean -> {
-                                    categoryButton.text = "Средиземноморская"
+                                    categoryButton.text = MID
                                     viewModel.editCategory(6)
                                     true
                                 }

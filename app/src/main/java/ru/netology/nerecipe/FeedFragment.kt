@@ -34,12 +34,12 @@ class FeedFragment : Fragment() {
 
         arguments?.recipeIdArg?.let { viewModel.removeById(it) }
 
-        var filterString = ""
-        var filterFlag = ""
+        var filterString = EMPTY_STRING
+        var filterFlag = EMPTY_STRING
         arguments?.textArg
             ?.let {
-                filterFlag = it.substringBefore("$$")
-                filterString = it.substringAfter("$$")
+                filterFlag = it.substringBefore(ARG_STRING_DELIMITER)
+                filterString = it.substringAfter(ARG_STRING_DELIMITER)
             }
 
         val adapter = RecipeAdapter(object : OnInteractionListener {
@@ -84,9 +84,9 @@ class FeedFragment : Fragment() {
 
         viewModel.data.observe(viewLifecycleOwner) { recipes ->
             adapter.modifyList(recipes)
-            if (filterFlag != "") {
+            if (filterFlag != EMPTY_STRING) {
                 adapter.filterByCategory(filterString)
-                if (filterFlag == "2") {
+                if (filterFlag == FILTER_FLAG_2) {
                     adapter.filterByFavorites()
                     binding.showFavoritesButton.isChecked = true
                 }
@@ -105,12 +105,12 @@ class FeedFragment : Fragment() {
             findNavController().navigate(R.id.action_feedFragment_to_editRecipe)
 
         }
-        binding.filterButton.isChecked = filterFlag != "" && filterString != "0123456"
+        binding.filterButton.isChecked = filterFlag != EMPTY_STRING && filterString != FULL_FILTER
         binding.filterButton.setOnClickListener {
             if (!binding.showFavoritesButton.isChecked) findNavController().navigate(R.id.action_feedFragment_to_filterFragment)
             else findNavController().navigate(
                 R.id.action_feedFragment_to_filterFragment,
-                Bundle().apply { textArg = "2" })
+                Bundle().apply { textArg = FILTER_FLAG_2 })
         }
 
         binding.recipeSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -127,11 +127,14 @@ class FeedFragment : Fragment() {
         })
         binding.showFavoritesButton.setOnClickListener {
             if (binding.showFavoritesButton.isChecked) {
-                if (filterFlag != "") adapter.filterByCategory(filterString)
+                if (filterFlag != EMPTY_STRING) adapter.filterByCategory(filterString)
                 adapter.filterByFavorites()
             } else {
                 adapter.filter(null)
-                if (filterFlag != "") adapter.filterByCategory(filterString)
+                if (filterFlag != FILTER_FLAG_2) {
+                    adapter.filterByCategory(filterString)
+                    filterFlag !=FILTER_FLAG_1
+                }
             }
         }
 

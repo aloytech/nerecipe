@@ -60,7 +60,7 @@ class StageAdapter(
     }
 
     fun editItem(position: Int) {
-        val text = position.toString() + "$$" + stageList[position]
+        val text = position.toString() + ARG_STRING_DELIMITER + stageList[position]
         removeItem(position)
         navController.navigate(
             R.id.action_editRecipe_to_editStage,

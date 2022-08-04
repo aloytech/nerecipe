@@ -17,7 +17,7 @@ class EditStage : Fragment() {
     private val viewModel: RecipeViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
-    private var editedStage: String = ""
+    private var editedStage: String = EMPTY_STRING
 
     companion object {
         var Bundle.textArg: String? by StringArg
@@ -34,34 +34,33 @@ class EditStage : Fragment() {
 
         arguments?.textArg
             ?.let {
-                editedStage = it.substringBefore("$$")
-                binding.editStageName.setText(it.substringAfter("$$"))
+                editedStage = it.substringBefore(ARG_STRING_DELIMITER)
+                binding.editStageName.setText(it.substringAfter(ARG_STRING_DELIMITER))
             }
 
         binding.editStageName.requestFocus()
-        if (viewModel.draft != "") {
+        if (viewModel.draft != EMPTY_STRING) {
             binding.editStageName.setText(viewModel.draft)
         }
         binding.saveButton.setOnClickListener {
             val content = binding.editStageName.text.toString()
-            if (content != "") {
-                if (editedStage == "") {
+            if (content != EMPTY_STRING) {
+                if (editedStage == EMPTY_STRING) {
                     viewModel.addStage(content)
                 } else viewModel.editStage(editedStage.toInt(), content)
-                editedStage = ""
-                viewModel.saveDraft("")
+                editedStage = EMPTY_STRING
+                viewModel.saveDraft(EMPTY_STRING)
                 AndroidUtils.hideKeyboard(requireView())
                 findNavController().navigateUp()
             } else {
-                Toast.makeText(activity, "Описание не может быть пустым", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, EMPTY_DESCRIPTION, Toast.LENGTH_LONG).show()
             }
 
         }
 
-
         binding.declineButton.setOnClickListener {
             findNavController().navigateUp()
-            viewModel.saveDraft("")
+            viewModel.saveDraft(EMPTY_STRING)
         }
 
         val callback = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {

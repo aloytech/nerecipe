@@ -11,13 +11,13 @@ import ru.netology.nerecipe.EditStage.Companion.textArg
 class FilterFragment : DialogFragment() {
 
     private val categories = arrayOf(
-        "Европейская",
-        "Азиатская",
-        "Паназиатская",
-        "Восточная",
-        "Американская",
-        "Русская",
-        "Средиземноморская"
+        EUR,
+        ASIA,
+        PAN_ASIA,
+        EAST,
+        USA,
+        RUS,
+        MID
     )
     private val checkedItems = booleanArrayOf(true, true, true, true, true, true, true)
 
@@ -27,7 +27,7 @@ class FilterFragment : DialogFragment() {
         arguments?.textArg?.let { filterFlag = it }
         return activity?.let {
             val builder = AlertDialog.Builder(it)
-            builder.setTitle("Выберите категории")
+            builder.setTitle(CHOOSE_CATEGORY)
                 .setMultiChoiceItems(categories, checkedItems) { _, which, isChecked ->
                     checkedItems[which] = isChecked
                 }
@@ -35,19 +35,19 @@ class FilterFragment : DialogFragment() {
                     "Применить"
                 ) { _, _ ->
 
-                    var s = "1$$"
-                    if (filterFlag != "") s = "2$$"
+                    var s = FILTER_FLAG_1 + ARG_STRING_DELIMITER
+                    if (filterFlag != EMPTY_STRING) s = FILTER_FLAG_2 + ARG_STRING_DELIMITER
                     for (i in checkedItems.indices) {
                         if (checkedItems[i]) {
                             s += i.toString()
                         }
                     }
                     if (s.length < 4) {
-                        Toast.makeText(activity, "Выбор не может быть пустым", Toast.LENGTH_LONG)
+                        Toast.makeText(activity, EMPTY_CHOICE, Toast.LENGTH_LONG)
                             .show()
                         findNavController().navigate(
                             R.id.action_filterFragment_to_feedFragment,
-                            Bundle().apply { textArg = s + "0123456" })
+                            Bundle().apply { textArg = s + FULL_FILTER })
                     } else {
                         findNavController().navigate(
                             R.id.action_filterFragment_to_feedFragment,

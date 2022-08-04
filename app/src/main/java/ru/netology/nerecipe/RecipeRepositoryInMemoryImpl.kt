@@ -31,20 +31,20 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
             }
 
         categories = listOf(
-            Category(0, "Европейская"),
-            Category(1, "Азиатская"),
-            Category(2, "Паназиатская"),
-            Category(3, "Восточная"),
-            Category(4, "Американская"),
-            Category(5, "Русская"),
-            Category(6, "Средиземноморская")
+            Category(0, EUR),
+            Category(1, ASIA),
+            Category(2, PAN_ASIA),
+            Category(3, EAST),
+            Category(4, USA),
+            Category(5, RUS),
+            Category(6, MID)
         )
 
         db.collection("recipes")
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    Log.d("FIREBASE", "success get ${document.data}")
+                    Log.d(TAG_FIREBASE, "success get ${document.data}")
                     val recipeJson = Gson().toJson(document.data)
                     val recipe = Gson().fromJson(recipeJson, Recipe::class.java)
                     if (recipe.id >= nextId) nextId = recipe.id + 1
@@ -54,7 +54,7 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
                 }
             }
             .addOnFailureListener { exception ->
-                Log.d("FIREBASE", "error get", exception)
+                Log.d(TAG_FIREBASE, ERROR_SERVER, exception)
             }
 
         data.value = recipes

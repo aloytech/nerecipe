@@ -9,7 +9,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     private val empty = Recipe(
         id = 0,
         authorId = 0,
-        name = "",
+        name = EMPTY_STRING,
         categoryId = 0,
         likesCount = 0,
         servingLink =
@@ -20,7 +20,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     private val repository: RecipeRepository = RecipeRepositoryInMemoryImpl()
 
     val data = repository.getAll()
-    var draft: String = ""
+    var draft: String = EMPTY_STRING
     private val edited = MutableLiveData(empty)
 
     fun likeDislike(id: Int, myId: Int) = repository.likeDislike(id, myId)
