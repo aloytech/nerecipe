@@ -26,8 +26,8 @@
     </style>
 
     <style name="Widget.AppTheme.MenuButton" parent="Widget.Material3.FloatingActionButton.Primary">
-        <item name="fabCustomSize">@dimen/post_avatar_size</item>
-        <item name="backgroundTint">@color/cardview_shadow_end_color</item>
+        <item name="fabCustomSize">@dimen/fab_standard</item>
+
 
     </style>
     <style name="Widget.AppTheme.FAButton" parent="Widget.AppTheme.LikeButton">
