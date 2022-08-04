@@ -8,7 +8,6 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import ru.netology.nerecipe.FeedFragment.Companion.recipeIdArg
 import ru.netology.nerecipe.databinding.EditStageBinding
 
 
@@ -18,6 +17,7 @@ class EditStage : Fragment() {
         ownerProducer = ::requireParentFragment
     )
     private var editedStage: String = ""
+
     companion object {
         var Bundle.textArg: String? by StringArg
     }
@@ -39,14 +39,14 @@ class EditStage : Fragment() {
             val content = binding.editStageName.text.toString()
             if (editedStage == "") {
                 viewModel.addStage(content)
-            } else viewModel.editStage(editedStage.toInt(),content)
+            } else viewModel.editStage(editedStage.toInt(), content)
             editedStage = ""
             AndroidUtils.hideKeyboard(requireView())
             findNavController().navigateUp()
         }
 
         arguments?.textArg
-            ?.let{
+            ?.let {
                 editedStage = it.substringBefore("$$")
                 binding.editStageName.setText(it.substringAfter("$$"))
             }

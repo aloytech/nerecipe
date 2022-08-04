@@ -1,13 +1,10 @@
 package ru.netology.nerecipe
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.PopupMenu
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
@@ -16,11 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.picasso.Picasso
-import ru.netology.nerecipe.EditStage.Companion.textArg
 import ru.netology.nerecipe.FeedFragment.Companion.recipeIdArg
-//import ru.netology.nerecipe.NewPostFragment.Companion.textArg
 import ru.netology.nerecipe.databinding.RecipeFullBinding
-import ru.netology.nerecipe.databinding.RecipeShortBinding
 import java.lang.Exception
 
 class ShowRecipeFull : Fragment() {
@@ -66,11 +60,14 @@ class ShowRecipeFull : Fragment() {
                 likeButton.isChecked = viewModel.likedByMe(id, getCurrentUserId())
                 val manager = LinearLayoutManager(context)
                 stagesListView.layoutManager = manager
-                val itemAdapter = StageAdapter(this.root.context, ArrayList(recipe.stages), findNavController())
+                val itemAdapter =
+                    StageAdapter(this.root.context, ArrayList(recipe.stages), findNavController())
                 stagesListView.adapter = itemAdapter
                 stagesListView.addItemDecoration(
-                    DividerItemDecoration(context,
-                        DividerItemDecoration.VERTICAL)
+                    DividerItemDecoration(
+                        context,
+                        DividerItemDecoration.VERTICAL
+                    )
                 )
 
                 likeButton.setOnClickListener {
@@ -82,15 +79,15 @@ class ShowRecipeFull : Fragment() {
                         setOnMenuItemClickListener { item ->
                             when (item.itemId) {
                                 R.id.removeItem -> {
-                                    viewModel.removeById(recipe.id)
-                                    findNavController().navigate(R.id.action_showRecipeFull_to_feedFragment)
+                                    findNavController().navigate(R.id.action_showRecipeFull_to_feedFragment,
+                                        Bundle().apply { recipeIdArg = recipe.id })
                                     true
                                 }
                                 R.id.editItem -> {
                                     viewModel.edit(id)
                                     findNavController().navigate(R.id.action_showRecipeFull_to_editRecipe,
                                         Bundle().apply
-                                        {recipeIdArg = id  })
+                                        { recipeIdArg = id })
                                     true
                                 }
                                 else -> false
@@ -100,7 +97,5 @@ class ShowRecipeFull : Fragment() {
                 }
             }
         } else findNavController().navigateUp()
-
     }
-
 }

@@ -3,9 +3,7 @@ package ru.netology.nerecipe
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 
@@ -14,7 +12,7 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
 
     private var users = emptyList<User>()
     private var categories = emptyList<Category>()
-    private var nextId = 4
+    private var nextId = 0
     private var recipes = emptyList<Recipe>()
     private val data = MutableLiveData(recipes)
 
@@ -49,7 +47,7 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
                     Log.d("FIREBASE", "success get ${document.data}")
                     val recipeJson = Gson().toJson(document.data)
                     val recipe = Gson().fromJson(recipeJson, Recipe::class.java)
-                    if (recipe.id > nextId) nextId = recipe.id
+                    if (recipe.id >= nextId) nextId = recipe.id + 1
 
                     recipes = listOf(recipe) + recipes
                     data.value = recipes
@@ -78,9 +76,9 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
                     db.collection("users").document("$myId").set(user)
                     user
                 } else {
-                    val newFavorites = if (it.favorites.isNullOrEmpty()){
+                    val newFavorites = if (it.favorites.isNullOrEmpty()) {
                         listOf(id)
-                    } else{
+                    } else {
                         listOf(id) + it.favorites
                     }
                     val user = it.copy(favorites = newFavorites)
@@ -177,6 +175,7 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
 
     override fun likedByMe(id: Int, myId: Int): Boolean {
         return users.find {
-            it.uid == myId }!!.iLikeIt(id)
+            it.uid == myId
+        }!!.iLikeIt(id)
     }
 }

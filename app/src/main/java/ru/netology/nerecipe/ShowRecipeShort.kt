@@ -1,7 +1,5 @@
 package ru.netology.nerecipe
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.squareup.picasso.Picasso
 import ru.netology.nerecipe.FeedFragment.Companion.recipeIdArg
-//import ru.netology.nerecipe.NewPostFragment.Companion.textArg
 import ru.netology.nerecipe.databinding.RecipeShortBinding
 import java.lang.Exception
 
@@ -77,8 +74,6 @@ class ShowRecipeShort : Fragment() {
                                 }
                                 R.id.editItem -> {
                                     viewModel.edit(recipe.id)
-                                    val stages = recipe.stages
-
                                     true
                                 }
                                 else -> false

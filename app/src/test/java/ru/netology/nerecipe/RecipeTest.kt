@@ -16,11 +16,11 @@ class RecipeTest {
             categoryId = 0,
             likesCount = 1260,
             servingLink = "http://",
-            stages = listOf("Смешать","Замесит","Испечь"),
+            stages = listOf("Смешать", "Замесит", "Испечь"),
             stagesLink = listOf("http://")
         )
         val actual = recipe.likesToString()
-        assertEquals(expected,actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -33,11 +33,11 @@ class RecipeTest {
             categoryId = 0,
             likesCount = 20260,
             servingLink = "http://",
-            stages = listOf("Смешать","Замесит","Испечь"),
+            stages = listOf("Смешать", "Замесит", "Испечь"),
             stagesLink = listOf("http://")
         )
         val actual = recipe.likesToString()
-        assertEquals(expected,actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -48,14 +48,15 @@ class RecipeTest {
             authorId = 0,
             name = "Блины",
             categoryId = 0,
-            likesCount =2360200,
+            likesCount = 2360200,
             servingLink = "http://",
-            stages = listOf("Смешать","Замесит","Испечь"),
+            stages = listOf("Смешать", "Замесит", "Испечь"),
             stagesLink = listOf("http://")
         )
         val actual = recipe.likesToString()
-        assertEquals(expected,actual)
+        assertEquals(expected, actual)
     }
+
     @Test
     fun likesToStringUnder1000() {
         val expected = "202"
@@ -66,11 +67,11 @@ class RecipeTest {
             categoryId = 0,
             likesCount = 202,
             servingLink = "http://",
-            stages = listOf("Смешать","Замесит","Испечь"),
+            stages = listOf("Смешать", "Замесит", "Испечь"),
             stagesLink = listOf("http://")
         )
         val actual = recipe.likesToString()
-        assertEquals(expected,actual)
+        assertEquals(expected, actual)
     }
 
 }

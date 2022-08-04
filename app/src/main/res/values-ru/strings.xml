@@ -2,23 +2,23 @@
 <resources>
     <string name="app_name">NeRecipe</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
     <string name="serving_place">Вариант сервировки</string>
     <string name="show_menu">Меню</string>
     <string name="remove">удалить</string>
     <string name="edit">редактировать</string>
     <string name="like_button">добавить в избранное</string>
-    <string name="category_button">выберите категорию</string>
+    <string name="category_button">Выберите категорию:</string>
     <string name="save_button">СОХРАНИТЬ</string>
     <string name="decline_button">ОТМЕНИТЬ</string>
     <string name="filter_button">Выбор категорий для отображения</string>
     <string name="new_recipe_button">Создать новый рецепт</string>
     <string name="show_favorites_button">избранное</string>
     <string name="enter_stage">Введите описание этапа приготовления</string>
+    <string name="new_image">Нажмите чтобы загрузить изображение</string>
+
+    <string name="enter_name">Введите название рецепта:</string>
+    <string name="add_stage_button">Добавить этап приготовления:</string>
+
     <!--Categories -->
     <string name="europian">Европейская</string>
     <string name="asian">Азиатская</string>

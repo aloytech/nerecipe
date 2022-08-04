@@ -32,10 +32,8 @@ class FeedFragment : Fragment() {
     ): View {
         val binding: FragmentFeedBinding = FragmentFeedBinding.inflate(inflater, container, false)
 
-        val id = arguments?.recipeIdArg
-        if (id != null) {
-            viewModel.removeById(id)
-        }
+        arguments?.recipeIdArg?.let { viewModel.removeById(it) }
+
         var filterString = ""
         var filterFlag = ""
         arguments?.textArg
@@ -88,7 +86,7 @@ class FeedFragment : Fragment() {
             adapter.modifyList(recipes)
             if (filterFlag != "") {
                 adapter.filterByCategory(filterString)
-                if (filterFlag =="2"){
+                if (filterFlag == "2") {
                     adapter.filterByFavorites()
                     binding.showFavoritesButton.isChecked = true
                 }
@@ -107,10 +105,12 @@ class FeedFragment : Fragment() {
             findNavController().navigate(R.id.action_feedFragment_to_editRecipe)
 
         }
-        binding.filterButton.isChecked = filterFlag!="" && filterString!="0123456"
+        binding.filterButton.isChecked = filterFlag != "" && filterString != "0123456"
         binding.filterButton.setOnClickListener {
-            if (!binding.showFavoritesButton.isChecked)findNavController().navigate(R.id.action_feedFragment_to_filterFragment)
-            else findNavController().navigate(R.id.action_feedFragment_to_filterFragment, Bundle().apply { textArg= "2"})
+            if (!binding.showFavoritesButton.isChecked) findNavController().navigate(R.id.action_feedFragment_to_filterFragment)
+            else findNavController().navigate(
+                R.id.action_feedFragment_to_filterFragment,
+                Bundle().apply { textArg = "2" })
         }
 
         binding.recipeSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -129,8 +129,7 @@ class FeedFragment : Fragment() {
             if (binding.showFavoritesButton.isChecked) {
                 if (filterFlag != "") adapter.filterByCategory(filterString)
                 adapter.filterByFavorites()
-            }
-            else{
+            } else {
                 adapter.filter(null)
                 if (filterFlag != "") adapter.filterByCategory(filterString)
             }

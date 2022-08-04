@@ -36,7 +36,10 @@ class RecipeViewHolder(
             likeButton.isChecked = getByKey.getLikedByMe(recipe.id, getCurrentUserId())
 
             likeButton.setOnClickListener {
-                onInteractionListener.onLikeListener(recipe.id,getByKey.getLikedByMe(recipe.id, getCurrentUserId()))
+                onInteractionListener.onLikeListener(
+                    recipe.id,
+                    getByKey.getLikedByMe(recipe.id, getCurrentUserId())
+                )
             }
             menuButton.setOnClickListener {
                 PopupMenu(it.context, it).apply {

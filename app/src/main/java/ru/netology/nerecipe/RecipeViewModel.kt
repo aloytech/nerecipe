@@ -12,7 +12,8 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         name = "",
         categoryId = 0,
         likesCount = 0,
-        servingLink = "https://foma.ru/fotos/online/online%202013/maslenitsa2013/recepty/prostye_2.jpg",
+        servingLink =
+        "https://firebasestorage.googleapis.com/v0/b/nerecipe-9498f.appspot.com/o/uploads%2Fd979ee2f-fd04-48e5-b452-a091f7d6a9ef?alt=media&token=5f3dbead-0bac-4728-89ad-99119842c3d1",
         stages = emptyList(),
         stagesLink = emptyList()
     )
@@ -22,15 +23,16 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     var draft: String = ""
     private val edited = MutableLiveData(empty)
 
-    fun likeDislike(id: Int, myId:Int) = repository.likeDislike(id,myId)
+    fun likeDislike(id: Int, myId: Int) = repository.likeDislike(id, myId)
     fun removeById(id: Int) = repository.removeById(id)
-    fun showRecipe(id: Int):Recipe?{
+    fun showRecipe(id: Int): Recipe? {
         return if (id == 0) edited.value
         else repository.showRecipe(id)
     }
+
     fun getAuthorName(id: Int) = repository.getUserName(id)
     fun getCategoryName(id: Int) = repository.getCategoryName(id)
-    fun likedByMe(id: Int, myId:Int) = repository.likedByMe(id,myId)
+    fun likedByMe(id: Int, myId: Int) = repository.likedByMe(id, myId)
     fun save() {
         edited.value?.let {
             repository.save(it)
@@ -42,25 +44,27 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     fun saveDraft(string: String) {
         draft = string
     }
-    fun addStage(stage:String){
-        edited.value?.let{
+
+    fun addStage(stage: String) {
+        edited.value?.let {
             edited.value = it.copy(stages = it.stages + listOf(stage))
         }
     }
 
-    fun editServing(uri:String){
-        edited.value?.let{
+    fun editServing(uri: String) {
+        edited.value?.let {
             edited.value = it.copy(servingLink = uri)
         }
     }
 
-    fun editCategory(categoryId: Int){
-        edited.value?.let{
+    fun editCategory(categoryId: Int) {
+        edited.value?.let {
             edited.value = it.copy(categoryId = categoryId)
         }
     }
-    fun editName(name: String){
-        edited.value?.let{
+
+    fun editName(name: String) {
+        edited.value?.let {
             edited.value = it.copy(name = name)
         }
     }
@@ -73,19 +77,21 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             edited.value = it.copy(stages = stages)
         }
     }
-    fun editStage(index:Int, content: String) {
+
+    fun editStage(index: Int, content: String) {
         edited.value?.let {
-            var newStages = it.stages.toMutableList()
+            val newStages = it.stages.toMutableList()
             newStages[index] = content
 
             edited.value = it.copy(stages = newStages)
         }
     }
 
-    fun edit(id:Int) {
-        edited.value = if (id == 0 ) empty else repository.showRecipe(id)
+    fun edit(id: Int) {
+        edited.value = if (id == 0) empty else repository.showRecipe(id)
     }
-    fun editionCorrect():EditCorrect{
+
+    fun editionCorrect(): EditCorrect {
         return EditCorrect.CORRECT
     }
 }

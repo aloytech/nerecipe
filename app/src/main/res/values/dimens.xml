@@ -7,8 +7,9 @@
     <dimen name="elevation">6dp</dimen>
     <dimen name="zero_pd">0dp</dimen>
     <dimen name="post_avatar_size">48dp</dimen>
-    <dimen name="common_text_size">24sp</dimen>
-    <dimen name="max_text_size">40sp</dimen>
+    <dimen name="common_text_size">18sp</dimen>
+    <dimen name="large_text_size">24sp</dimen>
+    <dimen name="max_text_size">32sp</dimen>
     <dimen name="min_text_size">12sp</dimen>
     <dimen name="step_text">2sp</dimen>
     <dimen name="icon_button_min_size">24dp</dimen>

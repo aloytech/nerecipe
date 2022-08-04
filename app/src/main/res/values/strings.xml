@@ -1,23 +1,23 @@
 <resources>
     <string name="app_name">NeRecipe</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
     <string name="serving_place">The variant of serving</string>
     <string name="show_menu">Menu</string>
     <string name="remove">remove</string>
     <string name="edit">edit</string>
     <string name="like_button">Toggle to add to favorites</string>
-    <string name="category_button">choose category</string>
+    <string name="category_button">Choose category:</string>
     <string name="save_button">SAVE</string>
     <string name="decline_button">DECLINE</string>
     <string name="filter_button">choose category to show</string>
     <string name="new_recipe_button">create new recipe</string>
     <string name="show_favorites_button">Favorites</string>
     <string name="enter_stage">Enter stage of cooking</string>
+    <string name="new_image">Click to upload new image</string>
+
+    <string name="enter_name">Enter the name of recipe:</string>
+    <string name="add_stage_button">Add stage of cooking:</string>
+
     <!--Categories -->
     <string name="europian">Europian</string>
     <string name="asian">Asian</string>
