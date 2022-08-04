@@ -7,7 +7,7 @@ data class Recipe(
     val categoryId: Int,
     val likesCount: Int,
     val servingLink: String,
-    val stages: List<String>,
+    val stages: ArrayList<String>,
     val stagesLink: List<String>
 ) {
     fun likesToString(): String {

@@ -18,6 +18,11 @@
     <string name="enter_name">Enter the name of recipe:</string>
     <string name="add_stage_button">Add stage of cooking:</string>
 
+    <string name="swipe_stages">Swipe stage</string>
+    <string name="swipe_left">left to edit</string>
+    <string name="swipe_right">right to delete</string>
+    <string name="swipe_vertical">Up/down to change position</string>
+
     <!--Categories -->
     <string name="europian">Europian</string>
     <string name="asian">Asian</string>

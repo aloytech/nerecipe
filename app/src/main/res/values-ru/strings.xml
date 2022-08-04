@@ -19,6 +19,11 @@
     <string name="enter_name">Введите название рецепта:</string>
     <string name="add_stage_button">Добавить этап приготовления:</string>
 
+    <string name="swipe_stages">Сдвиньте элемент</string>
+    <string name="swipe_left">влево - изменить</string>
+    <string name="swipe_right">вправо - удалить</string>
+    <string name="swipe_vertical">вверх\вниз изменить порядок</string>
+
     <!--Categories -->
     <string name="europian">Европейская</string>
     <string name="asian">Азиатская</string>

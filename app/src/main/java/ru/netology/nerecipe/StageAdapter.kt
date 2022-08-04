@@ -14,7 +14,8 @@ import ru.netology.nerecipe.EditStage.Companion.textArg
 class StageAdapter(
     private val context: Context,
     private var stageList: ArrayList<String>,
-    private val navController: NavController
+    private val navController: NavController,
+    private val onEditStagesListener: OnEditStagesListener? = null
 ) :
     RecyclerView.Adapter<StageAdapter.StageViewHolder>() {
 
@@ -51,17 +52,18 @@ class StageAdapter(
                 stageList[i] = stageList.set(i + 1, stageList[i])
             }
         } else {
-            for (i in fromPosition until toPosition) {
+            for (i in fromPosition downTo toPosition+1) {
                 stageList[i] = stageList.set(i - 1, stageList[i])
             }
         }
-
+        onEditStagesListener?.swapItems(fromPosition, toPosition)
         notifyItemMoved(fromPosition, toPosition)
     }
 
     fun editItem(position: Int) {
         val text = position.toString() + ARG_STRING_DELIMITER + stageList[position]
         removeItem(position)
+        onEditStagesListener?.onEditStages(stageList)
         navController.navigate(
             R.id.action_editRecipe_to_editStage,
             Bundle().apply { textArg = text })
@@ -71,6 +73,7 @@ class StageAdapter(
         stageList.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, itemCount)
+        onEditStagesListener?.onEditStages(stageList)
     }
 
     class StageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

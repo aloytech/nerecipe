@@ -24,7 +24,7 @@ class EditRecipe : Fragment() {
         ownerProducer = ::requireParentFragment
     )
 
-    private lateinit var stagesArray: ArrayList<String>
+    private var stagesArray = arrayListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +39,8 @@ class EditRecipe : Fragment() {
     }
 
     private fun init(binding: RecipeEditBinding) {
+
+
         val recipe = viewModel.showRecipe(0)
         if (recipe != null) {
 
@@ -62,7 +64,8 @@ class EditRecipe : Fragment() {
                 }
 
                 recipeNameEdit.setText(recipe.name)
-                categoryButton.text = viewModel.getCategoryName(recipe.id)
+                categoryButton.text =
+                    if (recipe.id != 0) viewModel.getCategoryName(recipe.id) else EUR
                 categoryButton.setOnClickListener {
                     PopupMenu(it.context, it).apply {
                         inflate(R.menu.menu_categories)
@@ -112,7 +115,16 @@ class EditRecipe : Fragment() {
                 val manager = LinearLayoutManager(context)
                 stages.layoutManager = manager
                 stagesArray = ArrayList(recipe.stages)
-                val itemAdapter = StageAdapter(this.root.context, stagesArray, findNavController())
+                val itemAdapter = StageAdapter(this.root.context, stagesArray, findNavController(),
+                    object : OnEditStagesListener {
+                        override fun onEditStages(stages: ArrayList<String>) {
+                            viewModel.editStages(stages)
+                        }
+
+                        override fun swapItems(fromPosition: Int, toPosition: Int) {
+                            viewModel.swapItems(fromPosition, toPosition)
+                        }
+                    })
 
                 stages.adapter = itemAdapter
                 stages.addItemDecoration(
@@ -133,14 +145,21 @@ class EditRecipe : Fragment() {
                     findNavController().navigate(R.id.action_editRecipe_to_editStage)
                 }
                 saveButton.setOnClickListener {
-                    viewModel.editName(recipeNameEdit.text.toString())
+                    if (recipeNameEdit.text.toString() != EMPTY_STRING) {
+                        viewModel.editName(recipeNameEdit.text.toString())
+                        if (stagesArray.isNotEmpty()) {
+                            viewModel.editStages(stagesArray)
+                            viewModel.save()
+                            findNavController().navigateUp()
 
-                    if (viewModel.editionCorrect() == EditCorrect.CORRECT) {
-                        viewModel.save()
-                        findNavController().navigateUp()
+                        } else Toast.makeText(
+                            this.root.context,
+                            EMPTY_STAGES,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else Toast.makeText(
                         this.root.context,
-                        viewModel.editionCorrect().toString(),
+                        EMPTY_NAME,
                         Toast.LENGTH_SHORT
                     ).show()
                 }

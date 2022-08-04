@@ -14,7 +14,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         likesCount = 0,
         servingLink =
         "https://firebasestorage.googleapis.com/v0/b/nerecipe-9498f.appspot.com/o/uploads%2Fd979ee2f-fd04-48e5-b452-a091f7d6a9ef?alt=media&token=5f3dbead-0bac-4728-89ad-99119842c3d1",
-        stages = emptyList(),
+        stages = arrayListOf(),
         stagesLink = emptyList()
     )
     private val repository: RecipeRepository = RecipeRepositoryInMemoryImpl()
@@ -46,9 +46,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun addStage(stage: String) {
-        edited.value?.let {
-            edited.value = it.copy(stages = it.stages + listOf(stage))
-        }
+        edited.value?.stages?.add(stage)
     }
 
     fun editServing(uri: String) {
@@ -70,12 +68,9 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun editStages(stages: List<String>) {
-        edited.value?.let {
-            if (it.stages == stages) {
-                return
-            }
-            edited.value = it.copy(stages = stages)
-        }
+        edited.value!!.stages.clear()
+        edited.value!!.stages.addAll(stages)
+
     }
 
     fun editStage(index: Int, content: String) {
@@ -83,15 +78,24 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             val newStages = it.stages.toMutableList()
             newStages[index] = content
 
-            edited.value = it.copy(stages = newStages)
+            edited.value!!.stages.clear()
+            edited.value!!.stages.addAll(newStages)
+        }
+    }
+    fun swapItems(fromPosition: Int, toPosition: Int) {
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+
+                edited.value!!.stages[i] = edited.value!!.stages.set(i + 1, edited.value!!.stages[i])
+            }
+        } else {
+            for (i in fromPosition downTo toPosition+1) {
+                edited.value!!.stages[i] = edited.value!!.stages.set(i - 1, edited.value!!.stages[i])
+            }
         }
     }
 
     fun edit(id: Int) {
         edited.value = if (id == 0) empty else repository.showRecipe(id)
-    }
-
-    fun editionCorrect(): EditCorrect {
-        return EditCorrect.CORRECT
     }
 }

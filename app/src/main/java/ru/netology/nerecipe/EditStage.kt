@@ -43,15 +43,17 @@ class EditStage : Fragment() {
             binding.editStageName.setText(viewModel.draft)
         }
         binding.saveButton.setOnClickListener {
+
             val content = binding.editStageName.text.toString()
             if (content != EMPTY_STRING) {
-                if (editedStage == EMPTY_STRING) {
-                    viewModel.addStage(content)
-                } else viewModel.editStage(editedStage.toInt(), content)
+
+                viewModel.addStage(content)
+
                 editedStage = EMPTY_STRING
                 viewModel.saveDraft(EMPTY_STRING)
                 AndroidUtils.hideKeyboard(requireView())
                 findNavController().navigateUp()
+
             } else {
                 Toast.makeText(activity, EMPTY_DESCRIPTION, Toast.LENGTH_LONG).show()
             }

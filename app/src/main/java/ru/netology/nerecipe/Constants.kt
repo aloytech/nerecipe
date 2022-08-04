@@ -6,6 +6,8 @@ const val EMPTY_STRING = ""
 //output string
 const val EMPTY_DESCRIPTION = "Описание не может быть пустым"
 const val EMPTY_CHOICE = "Выбор не может быть пустым"
+const val EMPTY_NAME = "Название не может быть пустым"
+const val EMPTY_STAGES = "Должен быть хотябы один этап"
 
 //firebase
 const val ERROR_SERVER = "Ошибка загрузки данных"
