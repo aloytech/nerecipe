@@ -16,7 +16,7 @@ class RecipeTest {
             categoryId = 0,
             likesCount = 1260,
             servingLink = "http://",
-            stages = listOf("Смешать", "Замесит", "Испечь"),
+            stages = arrayListOf("Смешать", "Замесит", "Испечь"),
             stagesLink = listOf("http://")
         )
         val actual = recipe.likesToString()
@@ -33,7 +33,7 @@ class RecipeTest {
             categoryId = 0,
             likesCount = 20260,
             servingLink = "http://",
-            stages = listOf("Смешать", "Замесит", "Испечь"),
+            stages = arrayListOf("Смешать", "Замесит", "Испечь"),
             stagesLink = listOf("http://")
         )
         val actual = recipe.likesToString()
@@ -50,7 +50,7 @@ class RecipeTest {
             categoryId = 0,
             likesCount = 2360200,
             servingLink = "http://",
-            stages = listOf("Смешать", "Замесит", "Испечь"),
+            stages = arrayListOf("Смешать", "Замесит", "Испечь"),
             stagesLink = listOf("http://")
         )
         val actual = recipe.likesToString()
@@ -67,7 +67,7 @@ class RecipeTest {
             categoryId = 0,
             likesCount = 202,
             servingLink = "http://",
-            stages = listOf("Смешать", "Замесит", "Испечь"),
+            stages = arrayListOf("Смешать", "Замесит", "Испечь"),
             stagesLink = listOf("http://")
         )
         val actual = recipe.likesToString()
