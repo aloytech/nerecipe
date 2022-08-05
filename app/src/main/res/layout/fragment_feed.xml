@@ -20,16 +20,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:queryBackground="@null" />
 
-    <com.google.android.material.button.MaterialButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/filter_button"
         android:layout_width="wrap_content"
+        style="@style/Widget.AppTheme.FAButton"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/small_spacing"
         android:checkable="true"
         android:contentDescription="@string/filter_button"
         android:visibility="visible"
-        app:icon="@drawable/ic_filter_24dp"
         app:iconGravity="textEnd"
+        app:fabCustomSize="@dimen/fab_large"
+        app:srcCompat="@drawable/ic_round_filter_list_off_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

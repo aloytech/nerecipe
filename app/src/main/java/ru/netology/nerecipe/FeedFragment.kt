@@ -84,15 +84,73 @@ class FeedFragment : Fragment() {
 
         viewModel.data.observe(viewLifecycleOwner) { recipes ->
             adapter.modifyList(recipes)
-            if (filterFlag != EMPTY_STRING) {
-                adapter.filterByCategory(filterString)
-                if (filterFlag == FILTER_FLAG_2) {
+            when (filterFlag){
+                FILTER_FLAG_3 -> {
+                    binding.filterButton.setImageResource(R.drawable.ic_round_filter_list_24)
+                    adapter.filterByCategory(filterString)
                     adapter.filterByFavorites()
                     binding.showFavoritesButton.isChecked = true
+                }
+                FILTER_FLAG_2 -> {
+                    binding.filterButton.setImageResource(R.drawable.ic_round_filter_list_off_24)
+                    adapter.filterByFavorites()
+                    binding.showFavoritesButton.isChecked = true
+                }
+                FILTER_FLAG_1 -> {
+                    binding.filterButton.setImageResource(R.drawable.ic_round_filter_list_24)
+                    adapter.filterByCategory(filterString)
+                    binding.showFavoritesButton.isChecked = false
+                }
+                else -> {
+                    binding.showFavoritesButton.isChecked = false
+                    binding.filterButton.setImageResource(R.drawable.ic_round_filter_list_off_24)
                 }
             }
         }
 
+        binding.filterButton.setOnClickListener {
+            when (filterFlag){
+                EMPTY_STRING -> findNavController().navigate(R.id.action_feedFragment_to_filterFragment)
+                else ->{
+                    findNavController().navigate(
+                        R.id.action_feedFragment_to_filterFragment,
+                        Bundle().apply { textArg = filterFlag + ARG_STRING_DELIMITER + filterString })
+                }
+            }
+        }
+
+        binding.showFavoritesButton.setOnClickListener {
+            when (filterFlag){
+                EMPTY_STRING -> {
+                    adapter.filterByFavorites()
+                    filterFlag = FILTER_FLAG_2
+                }
+                FILTER_FLAG_3 ->{
+                    filterFlag = FILTER_FLAG_1
+                    adapter.filter(null)
+                    adapter.filterByCategory(filterString)
+                }
+                FILTER_FLAG_1 ->{
+                    filterFlag = FILTER_FLAG_3
+                    adapter.filterByCategory(filterString)
+                    adapter.filterByFavorites()
+                }
+                FILTER_FLAG_2 -> {
+                    filterFlag = EMPTY_STRING
+                    adapter.filter(null)
+                }
+            }
+            if (binding.showFavoritesButton.isChecked) {
+                if (filterFlag != EMPTY_STRING) adapter.filterByCategory(filterString)
+                adapter.filterByFavorites()
+            } else {
+                adapter.filter(null)
+                if (filterFlag != FILTER_FLAG_2) {
+                    adapter.filterByCategory(filterString)
+                    filterFlag !=FILTER_FLAG_1
+                }
+            }
+        }
 
         binding.recipeRecycler.addItemDecoration(
             DividerItemDecoration(
@@ -103,14 +161,6 @@ class FeedFragment : Fragment() {
         binding.newRecipe.setOnClickListener {
             viewModel.edit(0)
             findNavController().navigate(R.id.action_feedFragment_to_editRecipe)
-
-        }
-        binding.filterButton.isChecked = filterFlag != EMPTY_STRING && filterString != FULL_FILTER
-        binding.filterButton.setOnClickListener {
-            if (!binding.showFavoritesButton.isChecked) findNavController().navigate(R.id.action_feedFragment_to_filterFragment)
-            else findNavController().navigate(
-                R.id.action_feedFragment_to_filterFragment,
-                Bundle().apply { textArg = FILTER_FLAG_2 })
         }
 
         binding.recipeSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -125,18 +175,6 @@ class FeedFragment : Fragment() {
                 return true
             }
         })
-        binding.showFavoritesButton.setOnClickListener {
-            if (binding.showFavoritesButton.isChecked) {
-                if (filterFlag != EMPTY_STRING) adapter.filterByCategory(filterString)
-                adapter.filterByFavorites()
-            } else {
-                adapter.filter(null)
-                if (filterFlag != FILTER_FLAG_2) {
-                    adapter.filterByCategory(filterString)
-                    filterFlag !=FILTER_FLAG_1
-                }
-            }
-        }
 
         return binding.root
     }

@@ -19,12 +19,25 @@ class FilterFragment : DialogFragment() {
         RUS,
         MID
     )
-    private val checkedItems = booleanArrayOf(true, true, true, true, true, true, true)
+    private var checkedItems = booleanArrayOf(true, true, true, true, true, true, true)
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        var filterFlag = ""
-        arguments?.textArg?.let { filterFlag = it }
+        var filterString: String
+        var filterFlag = EMPTY_STRING
+        arguments?.textArg
+            ?.let {
+                filterFlag = it.substringBefore(ARG_STRING_DELIMITER)
+                filterString = it.substringAfter(ARG_STRING_DELIMITER)
+                if (filterString != EMPTY_STRING) {
+                    for (i in checkedItems.indices) {
+                        if (!filterString.contains(i.toString())) {
+                            checkedItems[i] = false
+                        }
+                    }
+                }
+            }
+
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.setTitle(CHOOSE_CATEGORY)
@@ -32,32 +45,70 @@ class FilterFragment : DialogFragment() {
                     checkedItems[which] = isChecked
                 }
                 .setPositiveButton(
-                    "Применить"
+                    APPLY
                 ) { _, _ ->
 
-                    var s = FILTER_FLAG_1 + ARG_STRING_DELIMITER
-                    if (filterFlag != EMPTY_STRING) s = FILTER_FLAG_2 + ARG_STRING_DELIMITER
+                    var s = EMPTY_STRING
+
                     for (i in checkedItems.indices) {
                         if (checkedItems[i]) {
                             s += i.toString()
                         }
                     }
-                    if (s.length < 4) {
-                        Toast.makeText(activity, EMPTY_CHOICE, Toast.LENGTH_LONG)
-                            .show()
-                        findNavController().navigate(
-                            R.id.action_filterFragment_to_feedFragment,
-                            Bundle().apply { textArg = s + FULL_FILTER })
+
+                    if (s == EMPTY_STRING || s == FULL_FILTER) {
+                        if (s == EMPTY_STRING) Toast.makeText(
+                            activity,
+                            EMPTY_CHOICE,
+                            Toast.LENGTH_LONG
+                        ).show()
+                        when (filterFlag) {
+                            FILTER_FLAG_2, FILTER_FLAG_3 -> {
+                                findNavController().navigate(
+                                    R.id.action_filterFragment_to_feedFragment,
+                                    Bundle().apply { textArg = FILTER_FLAG_2 + ARG_STRING_DELIMITER })
+                            }
+                            else -> {
+                                findNavController().navigate(
+                                    R.id.action_filterFragment_to_feedFragment,
+                                    Bundle().apply { textArg = EMPTY_STRING })
+                            }
+                        }
                     } else {
-                        findNavController().navigate(
-                            R.id.action_filterFragment_to_feedFragment,
-                            Bundle().apply { textArg = s })
+                        when (filterFlag) {
+                            EMPTY_STRING, FILTER_FLAG_1 -> {
+                                findNavController().navigate(
+                                    R.id.action_filterFragment_to_feedFragment,
+                                    Bundle().apply {
+                                        textArg = FILTER_FLAG_1 + ARG_STRING_DELIMITER + s
+                                    })
+                            }
+                            FILTER_FLAG_2, FILTER_FLAG_3 -> {
+                                findNavController().navigate(
+                                    R.id.action_filterFragment_to_feedFragment,
+                                    Bundle().apply {
+                                        textArg = FILTER_FLAG_3 + ARG_STRING_DELIMITER + s
+                                    })
+                            }
+                        }
                     }
                 }
-                .setNegativeButton("Отмена") { _, _ ->
+                .setNegativeButton(CANCEL) { _, _ ->
+                    when (filterFlag) {
+                        FILTER_FLAG_2, FILTER_FLAG_3 -> {
+                            findNavController().navigate(
+                                R.id.action_filterFragment_to_feedFragment,
+                                Bundle().apply { textArg = FILTER_FLAG_2 + ARG_STRING_DELIMITER})
+                        }
+                        else -> {
+                            findNavController().navigate(
+                                R.id.action_filterFragment_to_feedFragment,
+                                Bundle().apply { textArg = EMPTY_STRING + ARG_STRING_DELIMITER})
+                        }
+                    }
                 }
 
             builder.create()
-        } ?: throw IllegalStateException("Activity cannot be null")
+        } ?: throw IllegalStateException(EMPTY_ACTIVITY)
     }
 }
