@@ -115,6 +115,7 @@
 
 <details>
 <summary> class Recipe</summary>
+
 ```
 data class Recipe(
     val id: Int,
@@ -134,6 +135,7 @@ data class Recipe(
 Соответственно рецепт ссылается на пользователя как на своего автора, в то время как пользователь ссылается на рецепты из избранного.
 <details>
 <summary> class User</summary>
+
 ```
 data class User(
     val uid: Int,
@@ -150,6 +152,7 @@ data class User(
 По факту просто список названий. Т.к. в текущей реализации нет потребностей вносить в список изменения то используется локальный константный список. Но соответствующая таблица на сервере присутствует.
 <details>
 <summary> class Category</summary>
+
 ```
 data class Category(
     val cid: Int,
