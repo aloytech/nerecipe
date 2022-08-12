@@ -13,6 +13,9 @@ const val EMPTY_ACTIVITY = "Активити не может быть пусты
 //firebase
 const val ERROR_SERVER = "Ошибка загрузки данных"
 const val TAG_FIREBASE = "FIREBASE"
+const val FB_SUMMARY = "fbSummary"
+const val LAST_USER_ID = "lastUserId"
+const val LAST_RECIPE_ID = "lastRecipeId"
 
 //filter
 const val FILTER_FLAG_1 = "1"

@@ -10,6 +10,8 @@
     <string name="category_button">Выберите категорию:</string>
     <string name="save_button">СОХРАНИТЬ</string>
     <string name="decline_button">ОТМЕНИТЬ</string>
+    <string name="accept_button">ПРИМЕНИТЬ</string>
+    <string name="forgot_button">Забыли пароль?</string>
     <string name="filter_button">Выбор категорий для отображения</string>
     <string name="new_recipe_button">Создать новый рецепт</string>
     <string name="show_favorites_button">избранное</string>
@@ -18,6 +20,10 @@
 
     <string name="enter_name">Введите название рецепта:</string>
     <string name="add_stage_button">Добавить этап приготовления:</string>
+
+    <string name="user_name_edit">Введите имя</string>
+    <string name="email_edit">Введите email</string>
+    <string name="password_edit">Введите пароль</string>
 
     <string name="swipe_stages">Сдвиньте элемент</string>
     <string name="swipe_left">влево - изменить</string>

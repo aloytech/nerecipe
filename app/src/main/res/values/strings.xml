@@ -9,6 +9,8 @@
     <string name="category_button">Choose category:</string>
     <string name="save_button">SAVE</string>
     <string name="decline_button">DECLINE</string>
+    <string name="accept_button">ACCEPT</string>
+    <string name="forgot_button">Forgot yor password?</string>
     <string name="filter_button">choose category to show</string>
     <string name="new_recipe_button">create new recipe</string>
     <string name="show_favorites_button">Favorites</string>
@@ -17,6 +19,11 @@
 
     <string name="enter_name">Enter the name of recipe:</string>
     <string name="add_stage_button">Add stage of cooking:</string>
+
+    <string name="user_name_edit">Enter name (nickname, alias)</string>
+    <string name="email_edit">Enter email</string>
+    <string name="password_edit">Enter password</string>
+
 
     <string name="swipe_stages">Swipe stage</string>
     <string name="swipe_left">left to edit</string>
