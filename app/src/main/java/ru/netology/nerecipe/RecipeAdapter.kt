@@ -63,7 +63,7 @@ class RecipeAdapter(
         val list = mutableListOf<Recipe>()
         if (mFilterList.isEmpty()) mFilterList = unfilteredList
         list.addAll(mFilterList.filter {
-            getByKey.getLikedByMe(it.id, getCurrentUserId())
+            getByKey.getLikedByMe(it.id)
         })
 
         submitList(list)

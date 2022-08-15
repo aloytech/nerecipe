@@ -4,7 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".AppActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/user_button"
+            style="@style/Widget.AppTheme.FAButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/logon_button"
+            android:text="@string/logon_button"
+            android:layout_gravity="end"
+            />
+
+    </androidx.appcompat.widget.Toolbar>
+
 
 
     <androidx.fragment.app.FragmentContainerView

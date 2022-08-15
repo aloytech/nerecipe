@@ -1,7 +1,7 @@
 package ru.netology.nerecipe
 
 data class User(
-    val uid: Int,
+    val uid: String,
     val userName: String,
     val favorites: List<Int>? = null,
     val hash: Int

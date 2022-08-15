@@ -57,7 +57,7 @@ class ShowRecipeFull : Fragment() {
                 recipeNameView.text = recipe.name
                 categoryView.text = viewModel.getCategoryName(recipe.id)
                 likeButton.text = recipe.likesToString()
-                likeButton.isChecked = viewModel.likedByMe(id, getCurrentUserId())
+                likeButton.isChecked = viewModel.likedByMe(id)
                 val manager = LinearLayoutManager(context)
                 stagesListView.layoutManager = manager
                 val itemAdapter =
@@ -71,7 +71,7 @@ class ShowRecipeFull : Fragment() {
                 )
 
                 likeButton.setOnClickListener {
-                    viewModel.likeDislike(recipe.id, getCurrentUserId())
+                    viewModel.likeDislike(recipe.id)
                 }
                 menuButton.setOnClickListener {
                     PopupMenu(it.context, it).apply {

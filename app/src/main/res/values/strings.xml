@@ -11,6 +11,8 @@
     <string name="decline_button">DECLINE</string>
     <string name="accept_button">ACCEPT</string>
     <string name="forgot_button">Forgot yor password?</string>
+    <string name="logon_button">LOGON</string>
+    <string name="register_button">REGISTER</string>
     <string name="filter_button">choose category to show</string>
     <string name="new_recipe_button">create new recipe</string>
     <string name="show_favorites_button">Favorites</string>

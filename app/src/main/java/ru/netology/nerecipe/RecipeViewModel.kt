@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     private val empty = Recipe(
         id = 0,
-        authorId = 0,
+        authorId = EMPTY_STRING,
         name = EMPTY_STRING,
         categoryId = 0,
         likesCount = 0,
@@ -23,7 +23,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     var draft: String = EMPTY_STRING
     private val edited = MutableLiveData(empty)
 
-    fun likeDislike(id: Int, myId: Int) = repository.likeDislike(id, myId)
+    fun likeDislike(id: Int) = repository.likeDislike(id)
     fun removeById(id: Int) = repository.removeById(id)
     fun showRecipe(id: Int): Recipe? {
         return if (id == 0) edited.value
@@ -32,7 +32,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun getAuthorName(id: Int) = repository.getUserName(id)
     fun getCategoryName(id: Int) = repository.getCategoryName(id)
-    fun likedByMe(id: Int, myId: Int) = repository.likedByMe(id, myId)
+    fun likedByMe(id: Int) = repository.likedByMe(id)
     fun save() {
         edited.value?.let {
             repository.save(it)

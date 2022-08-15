@@ -15,11 +15,37 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
+import ru.netology.nerecipe.EditStage.Companion.textArg
+import ru.netology.nerecipe.WelcomeFragment.Companion.logonVariant
 import ru.netology.nerecipe.databinding.FragmentAuthBinding
 import ru.netology.nerecipe.imagestorage.IntId
 
 class AuthFragment : Fragment() {
 
+    private var intId = IntId(0)
+
+    init {
+        val db = Firebase.firestore
+
+
+        //db.collection("fbsummary").document("lastuserid").set(intId)
+        db.collection(FB_SUMMARY)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    when (document.id) {
+                        LAST_USER_ID -> {
+                            Log.d(TAG_FIREBASE, "last user id: ${document.data}")
+                            val lastIdJson = Gson().toJson(document.data)
+                            intId = Gson().fromJson(lastIdJson, IntId::class.java)
+                        }
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG_FIREBASE, "get failed with ", exception)
+            }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,14 +55,54 @@ class AuthFragment : Fragment() {
 
         val binding: FragmentAuthBinding = FragmentAuthBinding.inflate(inflater, container, false)
 
+        var logonVariant = -1
+        arguments?.logonVariant
+            ?.let {
+                logonVariant = it
+            }
 
-        var auth = Firebase.auth
+        when (logonVariant) {
+            LOGON_VARIANT_USER_EXISTS -> {
+                binding.acceptButton.visibility = View.INVISIBLE
+                binding.userNameInput.visibility = View.INVISIBLE
+                binding.forgotButton.visibility = View.VISIBLE
+                binding.logonButton.visibility = View.VISIBLE
+            }
+            else -> {
+                binding.acceptButton.visibility = View.VISIBLE
+                binding.userNameInput.visibility = View.VISIBLE
+                binding.forgotButton.visibility = View.INVISIBLE
+                binding.logonButton.visibility = View.INVISIBLE
+            }
+        }
 
-        var currentUser = auth.currentUser
+        val auth = Firebase.auth
+
         //if(currentUser != null){
         //  authUserId = currentUser.uid
         //  findNavController().navigate(R.id.action_authFragment_to_feedFragment)
         //}
+
+        binding.logonButton.setOnClickListener {
+            if (validate(binding.userEmailInput) && validate(binding.userPasswordInput)) {
+                val email = binding.userEmailInput.text.toString()
+                val password = binding.userPasswordInput.text.toString()
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener() { task ->
+                        if (task.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG_FIREBASE, "signInWithEmail:success")
+                            //val user = auth.currentUser
+                            findNavController().navigate(R.id.action_authFragment_to_feedFragment)
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG_FIREBASE, "signInWithEmail:failure", task.exception)
+                            Toast.makeText(context, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show()
+                        }
+                    }
+            }
+        }
 
         binding.acceptButton.setOnClickListener {
             if (validate(binding.userEmailInput) && validate(binding.userPasswordInput)) {
@@ -48,39 +114,19 @@ class AuthFragment : Fragment() {
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG_FIREBASE, "createUserWithEmail:success")
-                            currentUser = auth.currentUser
-
+                            val currentUser = auth.currentUser
                             val db = Firebase.firestore
-
-                            var intId = IntId(3)
-                            db.collection("fbsummary").document("lastuserid").set(intId)
-                            db.collection("fbsummary")
-                                .get()
-                                .addOnSuccessListener { documents ->
-                                    for (document in documents) {
-                                        when (document.id){
-                                            LAST_USER_ID ->{
-                                                Log.d(TAG_FIREBASE, "last user id: ${document.data}")
-                                                val lastIdJson = Gson().toJson(document.data)
-                                                intId = Gson().fromJson(lastIdJson, IntId::class.java)
-                                            }
-                                        }
-                                    }
-                                }
-                                .addOnFailureListener { exception ->
-                                    Log.d(TAG_FIREBASE, "get failed with ", exception)
-                                }
-
                             intId = intId.copy(current = intId.current + 1)
                             db.collection(FB_SUMMARY).document(LAST_USER_ID).set(intId)
-
                             val newUser = User(
-                                intId.current,
+                                currentUser!!.uid,
                                 binding.userNameInput.text.toString(),
                                 null,
                                 password.hashCode()
                             )
                             db.collection("users").document(currentUser!!.uid).set(newUser)
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG_FIREBASE, "createUserWithEmail:failure", task.exception)
@@ -90,7 +136,6 @@ class AuthFragment : Fragment() {
                             ).show()
                         }
                     }
-
             }
         }
         return binding.root

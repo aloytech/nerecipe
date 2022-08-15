@@ -2,7 +2,7 @@ package ru.netology.nerecipe
 
 data class Recipe(
     val id: Int,
-    val authorId: Int,
+    val authorId: String,
     val name: String,
     val categoryId: Int,
     val likesCount: Int,

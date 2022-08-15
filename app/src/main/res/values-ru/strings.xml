@@ -12,6 +12,8 @@
     <string name="decline_button">ОТМЕНИТЬ</string>
     <string name="accept_button">ПРИМЕНИТЬ</string>
     <string name="forgot_button">Забыли пароль?</string>
+    <string name="logon_button">ВОЙТИ</string>
+    <string name="register_button">ЗАРЕГИСТРИРОВАТЬСЯ</string>
     <string name="filter_button">Выбор категорий для отображения</string>
     <string name="new_recipe_button">Создать новый рецепт</string>
     <string name="show_favorites_button">избранное</string>

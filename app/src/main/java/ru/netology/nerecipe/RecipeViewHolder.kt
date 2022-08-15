@@ -33,12 +33,12 @@ class RecipeViewHolder(
             recipeNameView.text = recipe.name
             categoryView.text = getByKey.getCategory(recipe.id)
             likeButton.text = recipe.likesToString()
-            likeButton.isChecked = getByKey.getLikedByMe(recipe.id, getCurrentUserId())
+            likeButton.isChecked = getByKey.getLikedByMe(recipe.id)
 
             likeButton.setOnClickListener {
                 onInteractionListener.onLikeListener(
                     recipe.id,
-                    getByKey.getLikedByMe(recipe.id, getCurrentUserId())
+                    getByKey.getLikedByMe(recipe.id)
                 )
             }
             menuButton.setOnClickListener {

@@ -2,10 +2,9 @@ package ru.netology.nerecipe
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -44,7 +43,7 @@ class FeedFragment : Fragment() {
 
         val adapter = RecipeAdapter(object : OnInteractionListener {
             override fun onLikeListener(id: Int, likedByMe: Boolean) {
-                viewModel.likeDislike(id, getCurrentUserId())
+                viewModel.likeDislike(id)
             }
 
             override fun onRemoveListener(id: Int) {
@@ -69,8 +68,8 @@ class FeedFragment : Fragment() {
                 return viewModel.getAuthorName(recipeId)
             }
 
-            override fun getLikedByMe(recipeId: Int, myId: Int): Boolean {
-                return viewModel.likedByMe(recipeId, myId)
+            override fun getLikedByMe(recipeId: Int): Boolean {
+                return viewModel.likedByMe(recipeId)
             }
 
             override fun getCategory(recipeId: Int): String {

@@ -2,6 +2,10 @@ package ru.netology.nerecipe
 
 //service string
 const val EMPTY_STRING = ""
+const val RECIPE_ID = "RECIPE_ID"
+const val LOGON_VARIANT = "LOGON_VARIANT"
+const val LOGON_VARIANT_USER_EXISTS = 1
+const val LOGON_VARIANT_REGISTRATION = 0
 
 //output string
 const val EMPTY_DESCRIPTION = "Описание не может быть пустым"

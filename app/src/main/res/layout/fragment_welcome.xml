@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/common_spacing"
+    tools:context=".WelcomeFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher_foreground"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logon_button"
+        style="@style/Widget.AppTheme.FAButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/icon_button_min_size"
+        android:contentDescription="@string/logon_button"
+        android:text="@string/logon_button"
+        android:layout_gravity="center"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/register_button"
+        style="@style/Widget.AppTheme.FAButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/icon_button_min_size"
+        android:contentDescription="@string/register_button"
+        android:text="@string/register_button"
+        android:layout_gravity="center"
+        />
+</LinearLayout>

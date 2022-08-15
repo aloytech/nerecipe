@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/authFragment">
+    app:startDestination="@id/welcomeFragment">
 
     <fragment
         android:id="@+id/feedFragment"
@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_feedFragment_to_filterFragment"
             app:destination="@id/filterFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/showRecipeFull"
@@ -82,6 +85,18 @@
         android:label="AuthFragment" >
         <action
             android:id="@+id/action_authFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="ru.netology.nerecipe.WelcomeFragment"
+        android:label="fragment_welcome"
+        tools:layout="@layout/fragment_welcome" >
+        <action
+            android:id="@+id/action_welcomeFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_feedFragment"
             app:destination="@id/feedFragment" />
     </fragment>
 </navigation>
