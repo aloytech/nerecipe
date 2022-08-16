@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">NeRecipe</string>
     <string name="action_settings">Settings</string>
+    <string name="action_logout">Logout</string>
     <string name="serving_place">The variant of serving</string>
     <string name="show_menu">Menu</string>
     <string name="remove">remove</string>

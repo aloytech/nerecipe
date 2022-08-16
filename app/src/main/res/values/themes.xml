@@ -1,9 +1,10 @@
 <resources>
 
-    <style name="Theme.NeRecipe" parent="Theme.Material3.DayNight">
+    <style name="Theme.NeRecipe" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="android:navigationBarColor">@color/md_sys_color_primary</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <item name="actionOverflowButtonStyle">@drawable/ic_round_filter_list_24</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/md_sys_color_primary</item>
         <item name="colorPrimaryVariant">@color/md_sys_color_primary_dark</item>

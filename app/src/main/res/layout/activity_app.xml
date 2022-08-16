@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,23 +7,18 @@
     android:orientation="vertical"
     tools:context=".AppActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/main_toolbar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/user_button"
-            style="@style/Widget.AppTheme.FAButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/logon_button"
-            android:text="@string/logon_button"
-            android:layout_gravity="end"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/app_name"
+            app:menu="@menu/menu_main"
             />
-
-    </androidx.appcompat.widget.Toolbar>
-
+    </com.google.android.material.appbar.AppBarLayout>
 
 
     <androidx.fragment.app.FragmentContainerView
@@ -36,4 +31,4 @@
         app:navGraph="@navigation/nav_main">
 
     </androidx.fragment.app.FragmentContainerView>
-</FrameLayout>
+</LinearLayout>
