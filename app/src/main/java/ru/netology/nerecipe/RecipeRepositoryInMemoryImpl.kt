@@ -121,7 +121,7 @@ class RecipeRepositoryInMemoryImpl : RecipeRepository {
         users = users.map {
             if (it.iLikeIt(id)) {
                 val user = it.copy(favorites = it.favorites?.minusElement(id))
-                db.collection("users").document("${user.uid}").set(user)
+                db.collection("users").document(user.uid).set(user)
                 user
             } else {
                 it

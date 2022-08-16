@@ -11,7 +11,7 @@ class RecipeTest {
         val expected = "1,2K"
         val recipe = Recipe(
             id = 1,
-            authorId = 0,
+            authorId = "",
             name = "Блины",
             categoryId = 0,
             likesCount = 1260,
@@ -28,7 +28,7 @@ class RecipeTest {
         val expected = "20K"
         val recipe = Recipe(
             id = 1,
-            authorId = 0,
+            authorId = "",
             name = "Блины",
             categoryId = 0,
             likesCount = 20260,
@@ -45,7 +45,7 @@ class RecipeTest {
         val expected = "2,3M"
         val recipe = Recipe(
             id = 1,
-            authorId = 0,
+            authorId = "",
             name = "Блины",
             categoryId = 0,
             likesCount = 2360200,
@@ -62,7 +62,7 @@ class RecipeTest {
         val expected = "202"
         val recipe = Recipe(
             id = 1,
-            authorId = 0,
+            authorId = "",
             name = "Блины",
             categoryId = 0,
             likesCount = 202,
